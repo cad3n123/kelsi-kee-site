@@ -1,72 +1,39 @@
 document.addEventListener('DOMContentLoaded', function () {
   const rsvpForm = document.getElementById('mc-embedded-subscribe-form');
-
   if (rsvpForm) {
     rsvpForm.addEventListener('submit', function (e) {
-      // 1. STOP THE FORM from submitting normally.
+      // Always stop the form submission first
       e.preventDefault();
 
-      // 2. We still wait a moment for the validator to run.
-      // 100ms is a safe bet to let mc-validate.js finish.
+      // --- START: Updated Validation ---
+
+      // Check the form's validity.
+      // If any 'required' field is empty, this will:
+      // 1. Show the browser's default validation alert (e.g., "Please fill out this field")
+      // 2. Return 'false'
+      if (!rsvpForm.reportValidity()) {
+        // If the form is invalid (reportValidity returned false),
+        // stop right here. The browser has already shown the alert.
+        return;
+      }
+
+      // --- END: Updated Validation ---
+
+      // If we get here, it means reportValidity() returned 'true'
+      // (all required fields are filled), so we show the "thank you" page.
+      const submitBtn = document.getElementById('submit');
+      submitBtn.innerHTML = 'submitting...';
+      submitBtn.disabled = true;
+      submitBtn.style.color = '#808080';
+
+      console.log('Form submission captured. Backend endpoint removed.');
       setTimeout(function () {
-        // 3. Check if the validator added any .error classes.
-        const hasErrors = rsvpForm.querySelector('input.error, select.error');
-
-        if (hasErrors) {
-          // Validation FAILED. Stop here and let the user
-          // see the error messages.
-          return;
-        }
-
-        // --- Validation PASSED ---
-
-        // 4. Show your "submitting..." UI
-        const submitBtn = document.getElementById('submit');
-        submitBtn.innerHTML = 'submitting...';
-        submitBtn.disabled = true;
-        submitBtn.style.color = '#808080';
-
-        // 5. Get the new "post-json" URL from the form's action
-        let url = rsvpForm.getAttribute('action');
-        // Add the magic jQuery JSONP callback string
-        url += '&c=?';
-
-        // 6. Use jQuery (which is already loaded) to
-        // send the form data in the background (AJAX/JSONP).
-        $.ajax({
-          url: url,
-          method: 'GET', // JSONP is always GET
-          dataType: 'jsonp',
-          data: $(rsvpForm).serialize(), // Use jQuery to grab all form data
-          success: function (response) {
-            // --- Mailchimp responded! ---
-
-            // It doesn't matter if Mailchimp said "success" or
-            // "user already subscribed". For the user, the
-            // experience is the same. We show "thank you".
-
-            // 7. Show your "Thank You" message.
-            document.getElementById(
-              'mc-embedded-subscribe-form'
-            ).style.display = 'none';
-            document.getElementById('thankyou').style.display = 'block';
-          },
-          error: function (err) {
-            // The network request itself failed.
-            // Even here, we should just show "thank you"
-            // to avoid confusing the user.
-            console.error('AJAX form submission error:', err);
-            document.getElementById(
-              'mc-embedded-subscribe-form'
-            ).style.display = 'none';
-            document.getElementById('thankyou').style.display = 'block';
-          },
-        });
-      }, 100); // 100ms delay for validator
+        document.getElementById('mc-embedded-subscribe-form').style.display =
+          'none';
+        document.getElementById('thankyou').style.display = 'block';
+      }, 500);
     });
   }
-
-  // ... (rest of your file: changeOpacity, updateOpacity, etc.) ...
 });
 
 function changeOpacity(element, startOpacity, endOpacity, startTime, endTime) {
