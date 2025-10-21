@@ -140,7 +140,7 @@ body {
 .bar3 {
     width: 35px;
     height: 5px;
-    background-color: var(--offWhite);
+    background-color: black;
     margin: 6px 0;
     transition: 0.4s;
 }
@@ -499,7 +499,7 @@ body {
         bottom: -5px;
         text-align: center;
         box-sizing: border-box;
-        padding: 15px 0;
+        padding: 25px 0;
     }
 
     #main-nav {
