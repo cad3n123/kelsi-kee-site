@@ -1,9 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const rsvpForm = document.getElementById('invitation-rsvp');
+  const rsvpForm = document.getElementById('mc-embedded-subscribe-form');
   if (rsvpForm) {
     rsvpForm.addEventListener('submit', function (e) {
-      e.preventDefault();
-
       const submitBtn = document.getElementById('submit');
       submitBtn.innerHTML = 'submitting...';
       submitBtn.disabled = true;
@@ -13,7 +11,8 @@ document.addEventListener('DOMContentLoaded', function () {
       // This simulates a successful form submission for the UI.
       console.log('Form submission captured. Backend endpoint removed.');
       setTimeout(function () {
-        document.getElementById('invitation-rsvp').style.display = 'none';
+        document.getElementById('mc-embedded-subscribe-form').style.display =
+          'none';
         document.getElementById('thankyou').style.display = 'block';
       }, 500); // Adding a small delay to mimic a network request
     });

@@ -59,7 +59,8 @@
                 <a href="#" aria-label="tiktok" target="_blank"><i class="fab fa-tiktok"></i></a>
             </section>
             <footer id="footer"> ©
-                <script>document.write(new Date().getFullYear())</script><a href='https://rareroomeast.com'>
+                <script>document.write(new Date().getFullYear())</script><a href='https://rareroomeast.com'
+                    target="_blank" rel="noopener noreferrer">
                     RAREROOM</a>
                 <br>
                 <a id="privacy-policy">PRIVACY POLICY</a>
@@ -72,14 +73,15 @@
         <div class="frame-wrapper">
             <a href="javascript:;" onclick="closePopup('fanclub-signup');" class="close">close [x]</a>
             <div class="frame">
-                <form id="invitation-rsvp"
+                <form id="mc-embedded-subscribe-form" class="validate"
                     action="https://rareroomeast.us9.list-manage.com/subscribe/post?u=dc1ef2b26411dc4872ade1a16&amp;id=12eb6d76fb&amp;f_id=00f951e1f0"
                     method="post" target="_blank">
+                    <img src="/images/fan-club.png" alt="Fan Club">
                     <h2>Sign Up</h2>
                     <div class="form-group">
                         <label for="field_email_address" class="sr-only">Email Address</label>
-                        <input class="form-control" placeholder="EMAIL ADDRESS *" id="field_email_address" name="EMAIL"
-                            type="text" required="">
+                        <input class="form-control required email" placeholder="EMAIL ADDRESS *"
+                            id="field_email_address" name="EMAIL" type="email" required="">
                     </div>
                     <div class="form-group">
                         <label for="field_first_name" class="sr-only">First Name</label>
@@ -94,13 +96,13 @@
                         <input class="form-control sm-input" placeholder="POSTAL CODE" id="field_postal_code"
                             name="field_postal_code" type="text">
                         <label for="field_country_region" class="sr-only">Country</label>
-                        <select id="field_country_region" name="COUNTRY" data-validation="Enter your country or region"
-                            class="form-control" required="">
+                        <<select id="field_country_region" name="COUNTRY" data-validation="Enter your country or region"
+                            class="form-control required" required="">
                             <option value="">SELECT YOUR COUNTRY/REGION *</option>
                             <option value="United States">United States</option>
                             <option value="Canada">Canada</option>
                             <option value="United Kingdom">United Kingdom</option>
-                        </select>
+                            </select>
                     </div>
                     <div class="form-group" data-validation="Enter your mobile phone number">
                         <label for="field_mobile_phone" class="sr-only">Mobile Phone</label>
@@ -108,6 +110,11 @@
                             type="text">
                     </div>
 
+                    <div aria-hidden="true" style="position: absolute; left: -5000px;">
+                        /* real people should not fill this in and expect good things - do not remove this or risk form
+                        bot signups */
+                        <input type="text" name="b_dc1ef2b26411dc4872ade1a16_12eb6d76fb" tabindex="-1" value="">
+                    </div>
                     <button type="submit" id="submit" name="subscribe" class="btn btn-default">SUBMIT</button>
                 </form>
                 <div id="thankyou">
@@ -117,6 +124,20 @@
         </div>
     </section>
 
+    <script type="text/javascript" src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"></script>
+    <script type="text/javascript">
+            (function ($) {
+                window.fnames = new Array();
+                window.ftypes = new Array();
+                fnames[0] = 'EMAIL'; ftypes[0] = 'email';
+                fnames[1] = 'FNAME'; ftypes[1] = 'text';
+                fnames[2] = 'LNAME'; ftypes[2] = 'text';
+                fnames[4] = 'PHONE'; ftypes[4] = 'phone';
+                fnames[5] = 'COUNTRY'; ftypes[5] = 'dropdown';
+                fnames[3] = 'ADDRESS'; ftypes[3] = 'address';
+            }(jQuery));
+        var $mcj = jQuery.noConflict(true);
+    </script>
     <script src="/scripts/index.js"></script>
 
 </body>

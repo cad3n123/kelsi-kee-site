@@ -197,6 +197,11 @@ body {
     text-align: center;
 }
 
+#fanclub-signup form img {
+    height: 6rem;
+    margin-bottom: -0.5rem;
+}
+
 #fanclub-signup .form-group {
     display: flex;
     width: 100%;
@@ -464,6 +469,10 @@ body {
     font-family: Helvetica, Arial, "sans-serif";
 }
 
+#logo:hover a {
+    color: rgb(190, 190, 190);
+}
+
 /* Portrait Styles */
 @media(orientation:portrait) {
     #overlay {
@@ -505,6 +514,7 @@ body {
     #main-nav {
         text-align: right;
         top: 19px;
+        right: 20px;
     }
 
     #main-nav .main-nav-button {
