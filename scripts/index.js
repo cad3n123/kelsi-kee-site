@@ -1,20 +1,37 @@
 document.addEventListener('DOMContentLoaded', function () {
   const rsvpForm = document.getElementById('mc-embedded-subscribe-form');
+
   if (rsvpForm) {
     rsvpForm.addEventListener('submit', function (e) {
-      const submitBtn = document.getElementById('submit');
-      submitBtn.innerHTML = 'submitting...';
-      submitBtn.disabled = true;
-      submitBtn.style.color = '#808080';
-
-      // Original third-party AJAX call removed.
-      // This simulates a successful form submission for the UI.
-      console.log('Form submission captured. Backend endpoint removed.');
+      // --- VALIDATION CHECK ---
+      // We run this check in a tiny delay (1ms) to let
+      // the Mailchimp validator (mc-validate.js) run FIRST.
       setTimeout(function () {
-        document.getElementById('mc-embedded-subscribe-form').style.display =
-          'none';
-        document.getElementById('thankyou').style.display = 'block';
-      }, 500); // Adding a small delay to mimic a network request
+        // The validator adds an 'error' class to any invalid field.
+        // We check if any field with that class exists.
+        const hasErrors = rsvpForm.querySelector('input.error, select.error');
+
+        // If there ARE errors, stop! Let the user see the form
+        // and the Mailchimp error messages.
+        if (hasErrors) {
+          return;
+        }
+
+        // --- YOUR CODE ---
+        // If there are NO errors, go ahead and show "submitting..."
+        // and the "thank you" message.
+        const submitBtn = document.getElementById('submit');
+        submitBtn.innerHTML = 'submitting...';
+        submitBtn.disabled = true;
+        submitBtn.style.color = '#808080';
+
+        // Show the "thank you" message
+        setTimeout(function () {
+          document.getElementById('mc-embedded-subscribe-form').style.display =
+            'none';
+          document.getElementById('thankyou').style.display = 'block';
+        }, 500);
+      }, 1); // 1ms delay is all we need
     });
   }
 });
