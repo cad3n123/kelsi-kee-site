@@ -389,7 +389,7 @@ img.fan-club {
 
 #mailchimp-logo {
     position: absolute;
-    bottom: 0;
+    bottom: 0.5rem;
     right: 0.75rem;
     filter: invert(1);
     margin: 0 !important;
@@ -398,7 +398,7 @@ img.fan-club {
 }
 
 #mailchimp-logo img {
-    width: 3rem !important;
+    width: 2.5rem !important;
 }
 
 #footer {
