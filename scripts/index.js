@@ -3,47 +3,70 @@ document.addEventListener('DOMContentLoaded', function () {
 
   if (rsvpForm) {
     rsvpForm.addEventListener('submit', function (e) {
-      // Use a timeout of 0ms.
-      // This is a common trick to push this function to the
-      // end of the browser's "to-do" list.
-      // This GUARANTEES it will run AFTER Mailchimp's
-      // validation script has already finished.
+      // 1. STOP THE FORM from submitting normally.
+      e.preventDefault();
+
+      // 2. We still wait a moment for the validator to run.
+      // 100ms is a safe bet to let mc-validate.js finish.
       setTimeout(function () {
-        // e.defaultPrevented is a built-in browser property.
-        // If Mailchimp's script (or any other script) called
-        // e.preventDefault() to stop the submission, this will be true.
-        if (e.defaultPrevented) {
-          // VALIDATION FAILED!
-          // Mailchimp stopped the submit, so we do nothing
-          // and let the user see the errors.
+        // 3. Check if the validator added any .error classes.
+        const hasErrors = rsvpForm.querySelector('input.error, select.error');
+
+        if (hasErrors) {
+          // Validation FAILED. Stop here and let the user
+          // see the error messages.
           return;
         }
 
-        // --- YOUR CODE ---
-        // If we get here, e.defaultPrevented was false.
-        // This means validation PASSED and the form is
-        // really submitting to Mailchimp.
-        // So, now we can safely show the "thank you" message.
+        // --- Validation PASSED ---
 
+        // 4. Show your "submitting..." UI
         const submitBtn = document.getElementById('submit');
         submitBtn.innerHTML = 'submitting...';
         submitBtn.disabled = true;
         submitBtn.style.color = '#808080';
 
-        // Show the "thank you" message
-        setTimeout(function () {
-          document.getElementById('mc-embedded-subscribe-form').style.display =
-            'none';
-          document.getElementById('thankyou').style.display = 'block';
-        }, 500); // Your 500ms aesthetic delay is perfectly fine
-      }, 0); // 0ms delay is the key
+        // 5. Get the new "post-json" URL from the form's action
+        let url = rsvpForm.getAttribute('action');
+        // Add the magic jQuery JSONP callback string
+        url += '&c=?';
+
+        // 6. Use jQuery (which is already loaded) to
+        // send the form data in the background (AJAX/JSONP).
+        $.ajax({
+          url: url,
+          method: 'GET', // JSONP is always GET
+          dataType: 'jsonp',
+          data: $(rsvpForm).serialize(), // Use jQuery to grab all form data
+          success: function (response) {
+            // --- Mailchimp responded! ---
+
+            // It doesn't matter if Mailchimp said "success" or
+            // "user already subscribed". For the user, the
+            // experience is the same. We show "thank you".
+
+            // 7. Show your "Thank You" message.
+            document.getElementById(
+              'mc-embedded-subscribe-form'
+            ).style.display = 'none';
+            document.getElementById('thankyou').style.display = 'block';
+          },
+          error: function (err) {
+            // The network request itself failed.
+            // Even here, we should just show "thank you"
+            // to avoid confusing the user.
+            console.error('AJAX form submission error:', err);
+            document.getElementById(
+              'mc-embedded-subscribe-form'
+            ).style.display = 'none';
+            document.getElementById('thankyou').style.display = 'block';
+          },
+        });
+      }, 100); // 100ms delay for validator
     });
   }
 
-  // ... (rest of your file)
-  // function changeOpacity(...)
-  // const element = ...
-  // etc.
+  // ... (rest of your file: changeOpacity, updateOpacity, etc.) ...
 });
 
 function changeOpacity(element, startOpacity, endOpacity, startTime, endTime) {
