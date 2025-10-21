@@ -139,6 +139,10 @@ body {
     height: 3.5rem;
 }
 
+img.fan-club {
+    filter: invert(1);
+}
+
 .bar1,
 .bar2,
 .bar3 {
@@ -352,12 +356,13 @@ body {
 }
 
 .popup .frame {
-    width: 100%;
     height: 100%;
     padding: 15px;
     display: block;
     overflow-y: auto;
     box-sizing: border-box;
+    margin: auto;
+    position: relative;
 }
 
 .popup h2 {
@@ -380,6 +385,20 @@ body {
 
 .popup .frame::-webkit-scrollbar-thumb:hover {
     background: #555;
+}
+
+#mailchimp-logo {
+    position: absolute;
+    bottom: 0;
+    right: 0.75rem;
+    filter: invert(1);
+    margin: 0 !important;
+    width: max-content;
+    object-fit: contain;
+}
+
+#mailchimp-logo img {
+    width: 3rem !important;
 }
 
 #footer {

@@ -42,7 +42,7 @@
                         <a href="#" target="_blank">Music</a>
                         <a href="#" target="_blank">Video</a>
                         <a href="javascript:;" onclick="togglePopup('fanclub-signup');" class="fanclub-button">
-                            <img class="lunatics" src="/images/fan-club.png" alt="Fan Club">
+                            <img class="lunatics fan-club" src="/images/fan-club.png" alt="Fan Club">
                         </a>
                     </div>
                 </nav>
@@ -77,7 +77,7 @@
             <div class="frame">
                 <form id="mc-embedded-subscribe-form" class="validate"
                     action="https://rareroomeast.us9.list-manage.com/subscribe/post-json?u=dc1ef2b26411dc4872ade1a16&amp;id=12eb6d76fb&amp;f_id=00f951e1f0">
-                    <img src="/images/fan-club.png" alt="Fan Club">
+                    <img src="/images/fan-club.png" alt="Fan Club" class='fan-club'>
                     <h2>Sign Up</h2>
                     <div class="form-group">
                         <label for="field_email_address" class="sr-only">Email Address</label>
@@ -118,6 +118,15 @@
                     </div>
                     <button type="submit" id="submit" name="subscribe" class="btn btn-default">SUBMIT</button>
                 </form>
+                <p id="mailchimp-logo" style="margin: 0px auto;">
+                    <a href="http://eepurl.com/jgy2Rs" title="Mailchimp - email marketing made easy and fun"><span
+                            style="display: inline-block; background-color: transparent; border-radius: 4px;"><img
+                                class="refferal_badge"
+                                src="https://digitalasset.intuit.com/render/content/dam/intuit/mc-fe/en_us/images/intuit-mc-rewards-text-dark.svg"
+                                alt="Intuit Mailchimp"
+                                style="width: 220px; height: 40px; display: flex; padding: 2px 0px; justify-content: center; align-items: center;"></span>
+                    </a>
+                </p>
                 <div id="thankyou">
                     <h2>Thanks for signing up!</h2>
                 </div>
@@ -125,7 +134,7 @@
         </div>
     </section>
     <div id="privacy-policy-div" class="black-overlay-page privacy-policy">
-        <button id="privacy-policy-x" class='x'><img src="/images/x.png" alt="Close Privacy Policy"></button>
+        <a id="privacy-policy-x" href="javascript:;" class="x">close [x]</a>
         <div>
             <section>
                 <h1>Information We Collect</h1>

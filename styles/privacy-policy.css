@@ -81,31 +81,28 @@ html:has(.black-overlay-page.active) {
   background-color: transparent;
   outline: none;
   border: none;
-  z-index: 1;}
-
-.black-overlay-page .x img {
-  width: 1.8em;
-  object-fit: cover;
+  z-index: 1;
 }
 
-.black-overlay-page .x img, #studio-div .carousel button img {
-  filter: invert(100%);
-  
-  transition: filter 250ms;
+#privacy-policy-div .x {
+  color: white;
+  text-decoration: none;
+  font-family: "Sedan_SC", serif;
+  font-size: 1.3em;
 }
 
-.black-overlay-page .x img:hover, #studio-div .carousel button img:hover {
-  filter: invert(80%);
+#privacy-policy-div .x:hover {
+  filter: brightness(0.8);
 }
 
 @media only screen and (max-width: 600px) {
   #privacy-policy-div > div {
-    --margin: 3rem;
+    --margin: 3em;
   }
   #privacy-policy-div h1 {
-    font-size: 1.25rem;
+    font-size: 1.25em;
   }
   #privacy-policy-div p {
-    font-size: 1rem;
+    font-size: 1em;
   }
 }
