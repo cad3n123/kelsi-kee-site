@@ -1,0 +1,558 @@
+@font-face {
+    font-family: Source_Code_Pro;
+    src: url(/Source_Code_Pro/static/SourceCodePro-Regular.ttf);
+}
+
+@font-face {
+    font-family: Cormorant_Garamond;
+    src: url(/Cormorant_Garamond/static/CormorantGaramond-Regular.ttf);
+}
+
+@font-face {
+    font-family: DM_Serif_Display;
+    src: url(/DM_Serif_Display/DMSerifDisplay-Regular.ttf);
+}
+
+@font-face {
+    font-family: Noto_Serif;
+    src: url(/Noto_Serif/static/NotoSerif_ExtraCondensed-Regular.ttf);
+}
+
+@font-face {
+    font-family: Sedan_SC;
+    src: url(/Sedan_SC/SedanSC-Regular.ttf);
+}
+
+:root {
+    --offWhite: #fffced;
+    --dlxPeach: #e77171;
+    --currentFont: "superior-title", serif;
+    --CaslonPro: "adobe-caslon-pro", serif;
+    --transition: transition: 300ms all;
+    --grey: rgb(112, 112, 112);
+}
+
+* {
+    border: none;
+}
+
+a {
+    color: var(--offWhite);
+    text-decoration: none;
+    transition: color 300ms;
+}
+
+.italics {
+    font-style: italic;
+}
+
+html,
+body {
+    font-family: "Sedan_SC", serif;
+    font-style: 'Normal';
+    font-stretch: 'Normal';
+    font-weight: 700;
+    font-size: 22px;
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    color: var(--offWhite);
+    background-color: #000;
+}
+
+#background,
+#overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center center;
+}
+
+#background {
+    background-image: url("/images/background-image.jpg");
+}
+
+#overlay {
+    background-image: url("/images/mm-02w.jpg");
+}
+
+#container {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+}
+
+#logo {
+    position: absolute;
+    top: 0px;
+    left: 20px;
+    font-size: 2.5em;
+    margin: 0;
+    letter-spacing: -2px;
+}
+
+#main-nav {
+    position: absolute;
+    right: 35px;
+    top: 20px;
+    font-size: .84em;
+    color: var(--offWhite);
+    z-index: 999999;
+}
+
+#main-nav a,
+.cta,
+#social a {
+    transition: 300ms all;
+}
+
+#main-nav a:hover,
+#social a:hover,
+.cta:hover {
+    border-bottom: 2px solid var(--offWhite);
+    padding-bottom: 4px;
+}
+
+#main-nav a+a {
+    margin-left: 20px;
+    display: inline-block;
+}
+
+#main-nav .main-nav-button {
+    display: none;
+}
+
+#main-nav .fanclub-button img {
+    vertical-align: middle;
+    transition: 300ms all;
+    height: 3.5rem;
+}
+
+.bar1,
+.bar2,
+.bar3 {
+    width: 35px;
+    height: 5px;
+    background-color: var(--offWhite);
+    margin: 6px 0;
+    transition: 0.4s;
+}
+
+.open .bar1 {
+    transform: translate(0, 11px) rotate(-45deg);
+}
+
+.open .bar2 {
+    opacity: 0;
+}
+
+.open .bar3 {
+    transform: translate(0, -11px) rotate(45deg);
+}
+
+#home-content {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    font-weight: 400;
+    text-align: center;
+    z-index: 999;
+}
+
+#home-content .title img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+}
+
+#home-content strong {
+    display: block;
+    margin: auto auto 13px auto;
+}
+
+.cta {
+    border-bottom: 1px solid;
+    padding-bottom: -2px;
+}
+
+#fanclub-signup .frame-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+#fanclub-signup .frame {
+    height: auto;
+}
+
+#fanclub-signup form {
+    max-width: 480px;
+    margin: auto;
+    text-align: center;
+}
+
+#fanclub-signup .form-group {
+    display: flex;
+    width: 100%;
+}
+
+#fanclub-signup input,
+#fanclub-signup select {
+    font-family: var(--currentFont);
+    font-weight: bold;
+    background-color: transparent;
+    border: solid 1px var(--offWhite);
+    outline: none;
+    box-sizing: border-box;
+    font-size: .75em;
+    padding: 7px;
+    height: 35px;
+    width: 100%;
+    margin-bottom: 10px;
+    color: var(--offWhite);
+}
+
+#fanclub-signup option {
+    background-color: #000;
+}
+
+#fanclub-signup button {
+    background-color: #000;
+    font-family: var(--currentFont);
+    font-size: .95em;
+    border: solid 1px var(--offWhite);
+    margin-top: 15px;
+    font-weight: bold;
+    padding: 12px 19px;
+    color: var(--offWhite);
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+#fanclub-signup .sm-input {
+    max-width: 250px;
+    width: 50%;
+    margin-right: 10px;
+}
+
+#fanclub-signup .med-input {
+    max-width: 550px;
+    margin-right: 10px;
+}
+
+#fanclub-signup .legal {
+    font-size: 10px;
+    color: var(--offWhite);
+    margin-top: 20px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#fanclub-signup .legal a {
+    color: var(--offWhite);
+    display: inline-block;
+    margin: 0 3px;
+}
+
+#thankyou {
+    text-align: center;
+    font-size: .8em;
+    display: none;
+}
+
+#social {
+    position: absolute;
+    bottom: 20px;
+    right: 35px;
+    text-align: center;
+}
+
+#social a+a {
+    margin-left: 12px;
+}
+
+#social .newsletter-button {
+    display: inline-block;
+    margin: auto auto 10px auto;
+    font-size: .75em;
+}
+
+::placeholder {
+    color: var(--offWhite) !important;
+    opacity: 1 !important;
+}
+
+.popup {
+    position: absolute;
+    z-index: -1;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 0%;
+    opacity: 0;
+    transition: opacity 500ms, height 0s 500ms;
+    background: rgba(0, 0, 0, .93);
+    font-size: 16px;
+    color: var(--offWhite);
+    overflow: hidden;
+}
+
+.popup.open {
+    position: fixed;
+    min-height: 470px;
+    opacity: 1;
+    height: 100%;
+    -webkit-overflow-scrolling: touch;
+    transition: opacity 500ms, height 0s 0s;
+    overflow: auto;
+    z-index: 99999999;
+}
+
+.popup .close {
+    color: #fffced;
+    text-decoration: none;
+    font-size: 1.3em;
+    font-weight: normal;
+    line-height: 1em;
+    position: absolute;
+    right: 20px;
+    top: 13px;
+    transition: all 300ms;
+    z-index: 100000;
+}
+
+.popup .close:hover {
+    opacity: .7;
+}
+
+.popup .frame-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 40px;
+}
+
+.popup .frame {
+    width: 100%;
+    height: 100%;
+    padding: 15px;
+    display: block;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.popup h2 {
+    font-size: 5em;
+    margin: auto auto 10px auto;
+    letter-spacing: -2px;
+}
+
+.popup .frame::-webkit-scrollbar {
+    width: 5px;
+}
+
+.popup .frame::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.popup .frame::-webkit-scrollbar-thumb {
+    background: #1a1a1c;
+}
+
+.popup .frame::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+#footer {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    font-size: 10px;
+    text-align: center;
+    background: #000;
+    color: var(--offWhite);
+    border-top: solid 1px rgba(255, 252, 237, .33);
+    font-family: Source_Code_Pro;
+    letter-spacing: 3px;
+    font-weight: normal;
+}
+
+#footer {
+    line-height: 0.85rem;
+}
+
+#privacy-policy {
+    color: var(--grey);
+}
+
+#privacy-policy:hover {
+    color: var(--offWhite);
+    cursor: pointer;
+}
+
+.mobile-only {
+    display: none;
+}
+
+#deluxe {
+    background: rgba(0, 0, 0, .4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#deluxe h1 {
+    font-size: 2.3em;
+    margin: auto;
+}
+
+#deluxe h2 {
+    font-size: 2.1em;
+    margin: auto;
+    letter-spacing: .3px;
+    margin-top: -10px;
+    line-height: 1em;
+}
+
+#deluxe .content {
+    width: 95%;
+    box-sizing: border-box;
+    padding: 30px 40px;
+    color: var(--dlxPeach);
+    background-color: #f8efdd;
+    border-radius: 1em;
+    text-align: center;
+    max-width: 500px;
+    position: relative;
+}
+
+#deluxe .content img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 350px;
+    margin: 15px auto;
+}
+
+#deluxe .cta {
+    color: var(--dlxPeach);
+    font-family: var(--CaslonPro);
+    font-size: 1.4em;
+    border-color: var(--dlxPeach) !important;
+}
+
+#deluxe .closeDeluxe {
+    color: var(--dlxPeach);
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 1.75em;
+    font-weight: bold;
+    font-family: Helvetica, Arial, "sans-serif";
+}
+
+/* Portrait Styles */
+@media(orientation:portrait) {
+    #overlay {
+        background-image: url("/images/mm-02m.jpg");
+        background-position: top center;
+    }
+
+    .mobile-only {
+        display: block;
+    }
+
+    .desktop-only {
+        display: none;
+    }
+
+    #logo {
+        top: 10px;
+    }
+
+    #home-content {
+        left: 0;
+        width: 100%;
+        box-sizing: border-box;
+        bottom: 100px;
+        padding: 0 20px;
+        min-height: initial;
+    }
+
+    #social {
+        width: 100%;
+        right: 0;
+        left: 0;
+        bottom: -5px;
+        text-align: center;
+        box-sizing: border-box;
+        padding: 15px 0;
+    }
+
+    #main-nav {
+        text-align: right;
+        top: 19px;
+    }
+
+    #main-nav .main-nav-button {
+        display: inline-block;
+        border: none !important;
+    }
+
+    #main-nav.open .links {
+        height: auto;
+        border: solid 1px var(--offWhite);
+        border-radius: 10px;
+    }
+
+    #main-nav .links {
+        display: flex;
+        flex-direction: column;
+        height: 0;
+        overflow: hidden;
+        transition: 280ms ease-in-out;
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+    #main-nav .links a {
+        display: block;
+        padding: 8px 18px;
+        margin: 0 !important;
+        background-color: #000;
+    }
+
+    #main-nav a+a {
+        border-top: solid 1px rgba(255, 252, 237, .2);
+    }
+
+    #main-nav .fanclub-button {
+        background-size: 130px;
+        background-position: center;
+    }
+}
+
+/* Smaller Mobile Styles */
+@media(max-width:450px) {
+    #countdown {
+        font-size: 4vw !important;
+        height: 100svh;
+    }
+
+    #logo {
+        font-size: 1.65em;
+    }
+}

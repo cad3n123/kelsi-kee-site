@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>Kelsi Kee | Official Website</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2, minimum-scale=1">
+    <meta name="keywords" content="Kelsi Kee">
+    <meta name="author" content="">
+    <meta name="robots" content="noarchive">
+    <meta name="description" content="">
+    <meta name="theme-color" content="#">
+    <meta property="og:title" content="Kelsi Kee | Official Website">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="website">
+
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/styles/index.css">
+</head>
+
+<body>
+    <div id="background">
+        <div id="overlay" style="opacity: 1;"></div>
+    </div>
+    <div id="container">
+        <div id="wrapper">
+            <section id="header">
+                <h1 id="logo"><a href="/">Kelsi Kee</a></h1>
+                <nav id="main-nav">
+                    <a href="javascript:;" onclick="toggleMenu()" class="main-nav-button">
+                        <div class="nav-button-container">
+                            <div class="bar1"></div>
+                            <div class="bar2"></div>
+                            <div class="bar3"></div>
+                        </div>
+                    </a>
+                    <div class="links">
+                        <a href="#" target="_blank">Music</a>
+                        <a href="#" target="_blank">Video</a>
+                        <a href="javascript:;" onclick="togglePopup('fanclub-signup');" class="fanclub-button">
+                            <img class="lunatics" src="/images/fan-club.png" alt="Fan Club">
+                        </a>
+                    </div>
+                </nav>
+            </section>
+            <section id="home-content">
+                <div class="title"><img src="/images/album-title.png" alt="Kelsi Kee - Album Name"></div>
+                <!-- <div><span class="italics">experience in full color now</span></div> -->
+                <a href="#" target="_blank" class="cta">listen here</a>
+            </section>
+            <section id="social">
+                <a href="javascript:;" onclick="togglePopup('fanclub-signup');" class="newsletter-button">Sign Up For
+                    More</a><br>
+                <a href="#" aria-label="facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="youtube" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="#" aria-label="tiktok" target="_blank"><i class="fab fa-tiktok"></i></a>
+            </section>
+            <footer id="footer"> ©
+                <script>document.write(new Date().getFullYear())</script><a href='https://rareroomeast.com'>
+                    RAREROOM</a>
+                <br>
+                <a id="privacy-policy">PRIVACY POLICY</a>
+            </footer>
+        </div>
+    </div>
+
+    <section id="fanclub-signup" class="popup">
+        <div class="bg"></div>
+        <div class="frame-wrapper">
+            <a href="javascript:;" onclick="closePopup('fanclub-signup');" class="close">close [x]</a>
+            <div class="frame">
+                <form id="invitation-rsvp"
+                    action="https://rareroomeast.us9.list-manage.com/subscribe/post?u=dc1ef2b26411dc4872ade1a16&amp;id=12eb6d76fb&amp;f_id=00f951e1f0"
+                    method="post" target="_blank">
+                    <h2>Sign Up</h2>
+                    <div class="form-group">
+                        <label for="field_email_address" class="sr-only">Email Address</label>
+                        <input class="form-control" placeholder="EMAIL ADDRESS *" id="field_email_address" name="EMAIL"
+                            type="text" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="field_first_name" class="sr-only">First Name</label>
+                        <input class="form-control med-input" placeholder="FIRST NAME" id="field_first_name"
+                            name="FNAME" type="text">
+                        <label for="field_last_name" class="sr-only">Last Name</label>
+                        <input class="form-control" placeholder="LAST NAME" id="field_last_name" name="LNAME"
+                            type="text">
+                    </div>
+                    <div class="form-group" data-validation="Enter your postal code">
+                        <label for="field_postal_code" class="sr-only">Postal Code</label>
+                        <input class="form-control sm-input" placeholder="POSTAL CODE" id="field_postal_code"
+                            name="field_postal_code" type="text">
+                        <label for="field_country_region" class="sr-only">Country</label>
+                        <select id="field_country_region" name="COUNTRY" data-validation="Enter your country or region"
+                            class="form-control" required="">
+                            <option value="">SELECT YOUR COUNTRY/REGION *</option>
+                            <option value="United States">United States</option>
+                            <option value="Canada">Canada</option>
+                            <option value="United Kingdom">United Kingdom</option>
+                        </select>
+                    </div>
+                    <div class="form-group" data-validation="Enter your mobile phone number">
+                        <label for="field_mobile_phone" class="sr-only">Mobile Phone</label>
+                        <input class="form-control" placeholder="MOBILE PHONE" id="field_mobile_phone" name="PHONE"
+                            type="text">
+                    </div>
+
+                    <button type="submit" id="submit" name="subscribe" class="btn btn-default">SUBMIT</button>
+                </form>
+                <div id="thankyou">
+                    <h2>Thanks for signing up!</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="/scripts/index.js"></script>
+
+</body>
+
+</html>
