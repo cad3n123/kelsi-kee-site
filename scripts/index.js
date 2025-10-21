@@ -28,8 +28,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
       console.log('Form submission captured. Backend endpoint removed.');
       setTimeout(function () {
-        document.getElementById('mc-embedded-subscribe-form').style.display =
-          'none';
+        ['mc-embedded-subscribe-form', 'mailchimp-logo']
+          .map((id) => document.getElementById(id))
+          .map(($) => ($.style.display = 'none'));
         document.getElementById('thankyou').style.display = 'block';
       }, 500);
     });
