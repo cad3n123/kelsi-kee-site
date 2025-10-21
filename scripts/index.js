@@ -3,23 +3,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
   if (rsvpForm) {
     rsvpForm.addEventListener('submit', function (e) {
-      // --- VALIDATION CHECK ---
-      // We run this check in a tiny delay (1ms) to let
-      // the Mailchimp validator (mc-validate.js) run FIRST.
+      // Use a timeout of 0ms.
+      // This is a common trick to push this function to the
+      // end of the browser's "to-do" list.
+      // This GUARANTEES it will run AFTER Mailchimp's
+      // validation script has already finished.
       setTimeout(function () {
-        // The validator adds an 'error' class to any invalid field.
-        // We check if any field with that class exists.
-        const hasErrors = rsvpForm.querySelector('input.error, select.error');
-
-        // If there ARE errors, stop! Let the user see the form
-        // and the Mailchimp error messages.
-        if (hasErrors) {
+        // e.defaultPrevented is a built-in browser property.
+        // If Mailchimp's script (or any other script) called
+        // e.preventDefault() to stop the submission, this will be true.
+        if (e.defaultPrevented) {
+          // VALIDATION FAILED!
+          // Mailchimp stopped the submit, so we do nothing
+          // and let the user see the errors.
           return;
         }
 
         // --- YOUR CODE ---
-        // If there are NO errors, go ahead and show "submitting..."
-        // and the "thank you" message.
+        // If we get here, e.defaultPrevented was false.
+        // This means validation PASSED and the form is
+        // really submitting to Mailchimp.
+        // So, now we can safely show the "thank you" message.
+
         const submitBtn = document.getElementById('submit');
         submitBtn.innerHTML = 'submitting...';
         submitBtn.disabled = true;
@@ -30,10 +35,15 @@ document.addEventListener('DOMContentLoaded', function () {
           document.getElementById('mc-embedded-subscribe-form').style.display =
             'none';
           document.getElementById('thankyou').style.display = 'block';
-        }, 500);
-      }, 1); // 1ms delay is all we need
+        }, 500); // Your 500ms aesthetic delay is perfectly fine
+      }, 0); // 0ms delay is the key
     });
   }
+
+  // ... (rest of your file)
+  // function changeOpacity(...)
+  // const element = ...
+  // etc.
 });
 
 function changeOpacity(element, startOpacity, endOpacity, startTime, endTime) {
