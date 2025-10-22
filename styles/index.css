@@ -30,6 +30,8 @@
     --CaslonPro: "adobe-caslon-pro", serif;
     --transition: transition: 300ms all;
     --grey: rgb(112, 112, 112);
+
+    background-color: black;
 }
 
 * {
