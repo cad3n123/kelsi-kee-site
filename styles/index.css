@@ -579,9 +579,13 @@ img.fan-club {
         background-position: center;
     }
 
-    .popup h2 {
+    .popup *:not(#thankyou) > h2 {
         font-size: 4em;
         width: max-content;
+    }
+
+    .popup #thankyou > h2 {
+        font-size: 3em;
     }
 }
 
