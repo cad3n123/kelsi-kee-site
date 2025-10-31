@@ -1,4 +1,6 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
+  await checkPassword();
+
   const rsvpForm = document.getElementById('mc-embedded-subscribe-form');
   if (rsvpForm) {
     rsvpForm.addEventListener('submit', function (e) {
@@ -74,4 +76,28 @@ function closePopup(popupId) {
 }
 function toggleMenu() {
   document.getElementById('main-nav').classList.toggle('open');
+}
+async function checkPassword() {
+  return new Promise((resolve, reject) => {
+    const allowedStored = localStorage.getItem('allowed');
+    if (allowedStored !== null) {
+      if (JSON.parse(allowedStored)) {
+        resolve();
+        return;
+      }
+    }
+
+    const correctPassword = 'rareroom';
+    while (true) {
+      const enteredPassword = prompt('Enter password:').toLowerCase().trim();
+
+      if (enteredPassword === correctPassword) {
+        localStorage.setItem('allowed', JSON.stringify(true));
+        resolve();
+        return;
+      } else {
+        alert('Access Denied. Incorrect password.');
+      }
+    }
+  });
 }
