@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', async function () {
+  setCountryList();
   await checkPassword();
 
   const rsvpForm = document.getElementById('mc-embedded-subscribe-form');
@@ -37,6 +38,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       }, 500);
     });
   }
+  removeCurtainAfterImagesLoad();
 });
 
 function changeOpacity(element, startOpacity, endOpacity, startTime, endTime) {
@@ -100,4 +102,71 @@ async function checkPassword() {
       }
     }
   });
+}
+function setCountryList() {
+  fetch('https://restcountries.com/v3.1/all?fields=name')
+    .then((res) => res.json())
+    .then((data) => {
+      const select = document.querySelector("select[name='COUNTRY']");
+      data
+        .sort((a, b) => a.name.common.localeCompare(b.name.common))
+        .forEach((country) => {
+          const opt = document.createElement('option');
+          opt.value = country.name.common;
+          opt.textContent = country.name.common;
+          select.appendChild(opt);
+        });
+    });
+}
+function removeCurtainAfterImagesLoad() {
+  const $$images = [...document.querySelectorAll('img')];
+  const proms = $$images.map(($image) => {
+    if ($image.complete) {
+      return Promise.resolve();
+    }
+    return new Promise((res) => {
+      $image.onload = res;
+      $image.onerror = res;
+    });
+  });
+
+  const $curtain = document.getElementById('curtain');
+
+  const finish = (() => {
+    let done = false;
+    return () => {
+      if (done) return;
+      done = true;
+      $curtain.classList.remove('active');
+      const milliseconds = secondsToMilliseconds(
+        getComputedStyle($curtain).getPropertyValue('--transition-time').trim()
+      );
+      setTimeout(() => {
+        $curtain.remove();
+      }, milliseconds * 1.1);
+    };
+  })();
+
+  Promise.all(proms).then(finish);
+  setTimeout(finish, 10000);
+}
+function secondsToMilliseconds(timeStr) {
+  const match = timeStr.match(/^([\d.]+)s$/);
+  if (!match) throw new Error("Invalid time format. Must end in 's'.");
+  return Math.round(parseFloat(match[1]) * 1000);
+}
+function setCountryList() {
+  fetch('https://restcountries.com/v3.1/all?fields=name')
+    .then((res) => res.json())
+    .then((data) => {
+      const select = document.querySelector("select[name='COUNTRY']");
+      data
+        .sort((a, b) => a.name.common.localeCompare(b.name.common))
+        .forEach((country) => {
+          const opt = document.createElement('option');
+          opt.value = country.name.common;
+          opt.textContent = country.name.common;
+          select.appendChild(opt);
+        });
+    });
 }
