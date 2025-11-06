@@ -1,6 +1,28 @@
+// Elements
+const [$social, $mainNav, $homeContent] = [
+  'social',
+  'main-nav',
+  'home-content',
+].map((id) => document.getElementById(id));
+const [[$links]] = ['.links'].map((descriptor) =>
+  $mainNav.querySelectorAll(descriptor)
+);
+const [[$listenHere]] = ['.cta'].map((descriptor) =>
+  $homeContent.querySelectorAll(descriptor)
+);
+
+// Global Vars
+let data = {};
+
 document.addEventListener('DOMContentLoaded', async function () {
   setCountryList();
   await checkPassword();
+
+  (async () => {
+    await fetchData();
+    setSocials();
+    setLinks();
+  })();
 
   const rsvpForm = document.getElementById('mc-embedded-subscribe-form');
   if (rsvpForm) {
@@ -169,4 +191,58 @@ function setCountryList() {
           select.appendChild(opt);
         });
     });
+}
+async function fetchData() {
+  const S3_URL =
+    'https://rareroom-bucket.s3.us-east-2.amazonaws.com/kelsi-kee/data.json';
+
+  try {
+    const response = await fetch(S3_URL);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    data = await response.json();
+  } catch (err) {
+    console.error('Failed to fetch data:', err);
+  }
+}
+function setSocials() {
+  const socialLinks = data['social-links'];
+
+  if (socialLinks === undefined) {
+    return;
+  }
+
+  const $$socials = [...$social.querySelectorAll('a')].filter(
+    ($) => $.target === '_blank'
+  );
+  for (const social in socialLinks) {
+    const $social = $$socials.find(
+      ($social) => $social.getAttribute('aria-label') === social
+    );
+    const link = socialLinks[social];
+
+    if ($social === undefined || link === undefined || link === '') {
+      $social.style.display = 'none';
+      continue;
+    }
+
+    $social.href = link;
+  }
+}
+function setLinks() {
+  const $$links = [...$links.querySelectorAll('a')];
+
+  ['music', 'video'].forEach((key) => {
+    const link = data[key];
+    console.log(link);
+    const $link = $$links.find(($link) => $link.classList.contains(key));
+    if ([link, $link].includes(undefined)) {
+      return;
+    }
+    $link.href = link;
+    if (key === 'music') {
+      $listenHere.href = link;
+    }
+  });
 }
