@@ -23,12 +23,6 @@
     src: url(/Sedan_SC/SedanSC-Regular.ttf);
 }
 
-@font-face {
-    font-family: Sedan_SC;
-    src: url(/Sedan_SC/SedanSC-SemiBold.ttf); /* Example filename */
-    font-weight: 700;
-}
-
 :root {
     --offWhite: #fffced;
     --dlxPeach: #e77171;
@@ -64,7 +58,7 @@ body {
     font-style: 'Normal';
     font-stretch: 'Normal';
     font-weight: 700;
-    font-size: 22px;
+    font-size: 24px;
     width: 100%;
     min-height: 100%;
     margin: 0;
