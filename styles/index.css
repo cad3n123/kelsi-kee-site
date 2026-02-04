@@ -65,6 +65,7 @@ body {
     padding: 0;
     color: var(--offWhite);
     background-color: #000;
+    font-synthesis: none;
 }
 
 #curtain {
