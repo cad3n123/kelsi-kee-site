@@ -23,6 +23,12 @@
     src: url(/Sedan_SC/SedanSC-Regular.ttf);
 }
 
+@font-face {
+    font-family: Sedan_SC;
+    src: url(/Sedan_SC/SedanSC-Bold.ttf); /* Example filename */
+    font-weight: 700;
+}
+
 :root {
     --offWhite: #fffced;
     --dlxPeach: #e77171;
