@@ -44,7 +44,8 @@ a {
     transition: color 300ms;
 }
 
-a, button {
+a,
+button {
     cursor: pointer;
 }
 
@@ -78,9 +79,9 @@ body {
     width: 100vw;
     height: 100vh;
     z-index: 1000000000;
-    
+
     transition: opacity var(--transition-time) ease, visibility 0s linear var(--transition-time);
-    
+
 }
 
 #curtain.active {
@@ -197,11 +198,12 @@ img.fan-club {
     text-align: center;
     z-index: 999;
     font-size: 22px;
+    margin: 0 50px;
 }
 
 #home-content .title img {
     width: 100%;
-    max-width: 300px;
+    max-width: 200px;
     height: auto;
 }
 
@@ -602,12 +604,12 @@ img.fan-club {
         background-position: center;
     }
 
-    .popup *:not(#thankyou) > h2 {
+    .popup *:not(#thankyou)>h2 {
         font-size: 4em;
         width: max-content;
     }
 
-    .popup #thankyou > h2 {
+    .popup #thankyou>h2 {
         font-size: 3em;
     }
 }
