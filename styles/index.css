@@ -25,7 +25,7 @@
 
 :root {
     --offWhite: #fffced;
-    --dlxPeach: #e77171;
+    --accentPeach: #e77171;
     --currentFont: "superior-title", serif;
     --CaslonPro: "adobe-caslon-pro", serif;
     --transition: transition: 300ms all;
@@ -106,7 +106,7 @@ body {
 }
 
 #overlay {
-    background-image: url("/images/mm-02w.jpg");
+    background-image: url("/images/overlay-desktop.jpg");
 }
 
 #container {
@@ -486,7 +486,7 @@ img.fan-club {
     width: 95%;
     box-sizing: border-box;
     padding: 30px 40px;
-    color: var(--dlxPeach);
+    color: var(--accentPeach);
     background-color: #f8efdd;
     border-radius: 1em;
     text-align: center;
@@ -503,14 +503,14 @@ img.fan-club {
 }
 
 #deluxe .cta {
-    color: var(--dlxPeach);
+    color: var(--accentPeach);
     font-family: var(--CaslonPro);
     font-size: 1.4em;
-    border-color: var(--dlxPeach) !important;
+    border-color: var(--accentPeach) !important;
 }
 
 #deluxe .closeDeluxe {
-    color: var(--dlxPeach);
+    color: var(--accentPeach);
     position: absolute;
     top: 10px;
     right: 20px;
@@ -526,7 +526,7 @@ img.fan-club {
 /* Portrait Styles */
 @media(orientation:portrait) {
     #overlay {
-        background-image: url("/images/mm-02m.jpg");
+        background-image: url("/images/overlay-mobile.jpg");
         background-position: top center;
     }
 
