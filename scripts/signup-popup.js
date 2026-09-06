@@ -215,9 +215,9 @@
      A plain timer from DOMContentLoaded is wrong here: the curtain sits at
      z-index 100 and this panel at 80, so an early panel opens UNDERNEATH it —
      unseen, and having spent its one showing for the next three months. The
-     curtain also covers the password gate, which can hold the page indefinitely.
-     So watch for the curtain losing `.active`, then trail it by a moment so the
-     panel rises over a page that has already settled. */
+     curtain lifts only once the images have loaded, which on a slow connection
+     is well after DOMContentLoaded. So watch for the curtain losing `.active`,
+     then trail it by a moment so the panel rises over a settled page. */
   function whenPageVisible(run) {
     const curtain = document.getElementById('curtain');
     if (!curtain || !curtain.classList.contains('active')) {

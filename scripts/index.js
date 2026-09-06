@@ -37,10 +37,9 @@ function applyFeatureFlags() {
   if (!FEATURES.albumTitle) $homeContent.remove();
 }
 
-document.addEventListener('DOMContentLoaded', async function () {
+document.addEventListener('DOMContentLoaded', function () {
   applyFeatureFlags();
   setCountryList();
-  await checkPassword();
 
   (async () => {
     await fetchData();
@@ -203,30 +202,6 @@ function closePopup(popupId) {
 }
 function toggleMenu() {
   document.getElementById('main-nav').classList.toggle('open');
-}
-async function checkPassword() {
-  return new Promise((resolve, reject) => {
-    const allowedStored = localStorage.getItem('allowed');
-    if (allowedStored !== null) {
-      if (JSON.parse(allowedStored)) {
-        resolve();
-        return;
-      }
-    }
-
-    const correctPassword = 'rareroom';
-    while (true) {
-      const enteredPassword = prompt('Enter password:').toLowerCase().trim();
-
-      if (enteredPassword === correctPassword) {
-        localStorage.setItem('allowed', JSON.stringify(true));
-        resolve();
-        return;
-      } else {
-        alert('Access Denied. Incorrect password.');
-      }
-    }
-  });
 }
 /* ISO 3166-1, already in alphabetical order.
 

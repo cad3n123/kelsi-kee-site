@@ -7,9 +7,13 @@ through a web server (not `file://` — the paths are absolute, e.g. `/scripts/`
 python3 -m http.server 8765     # then http://localhost:8765
 ```
 
-The site is gated behind a password prompt (`rareroom`, in `checkPassword()`).
-Once entered it is remembered in `localStorage` under `allowed`. To get the
-prompt back: `localStorage.removeItem('allowed')` in the console.
+There is no password prompt — the site is open. It previously asked for one on
+load (`rareroom`, hardcoded in the script), which was never real protection since
+anyone could read it in the source or just skip it. Removed; see git history if
+it is ever wanted back.
+
+Visitors who passed the old gate still have an `allowed` key in `localStorage`.
+Nothing reads it any more and it can be ignored.
 
 ---
 
@@ -124,5 +128,3 @@ the source, so that is not a meaningful barrier.)
   neither of which exists in `images/`. Both 404 on every load. The overlay is
   driven by a fade whose end date (9 May 2025) has passed, so it sits at full
   opacity over a missing image and renders nothing. Harmless, but dead.
-- The password gate is client-side only and the password is in plain sight in
-  `scripts/index.js`. It keeps out casual visitors, nothing more.
