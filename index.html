@@ -11,7 +11,10 @@
     <meta name="author" content="">
     <meta name="robots" content="noarchive">
     <meta name="description" content="Official website for Kelsi Kee">
-    <meta name="theme-color" content="#">
+    <!-- iOS paints the status bar / dynamic island strip with this; it was "#"
+         (invalid), so Safari fell back to sampling the page and the site showed
+         through above full-screen overlays like the privacy policy. -->
+    <meta name="theme-color" content="#000000">
     <meta property="og:title" content="Kelsi Kee | Official Website">
     <meta property="og:description" content="Official website for Kelsi Kee">
     <meta property="og:type" content="website">
@@ -64,8 +67,7 @@
                 <a target="_blank" class="cta">listen here</a>
             </section>
             <section id="social">
-                <a href="javascript:;" onclick="togglePopup('fanclub-signup');" class="newsletter-button">Sign Up For
-                    More</a><br>
+                <a href="javascript:;" onclick="togglePopup('fanclub-signup');" class="newsletter-button">Sign Up</a><br>
                 <!-- Hidden until the bucket file says which of these have a link, and in
                      which order — see setSocials() in /scripts/index.js. Without the
                      `hidden` they all paint first and the unused ones blink out. -->

@@ -198,7 +198,7 @@ img.fan-club {
 .bar3 {
     width: 35px;
     height: 5px;
-    background-color: black;
+    background-color: var(--offWhite);
     margin: 6px 0;
     transition: 0.4s;
 }
