@@ -30,6 +30,9 @@
     --CaslonPro: "adobe-caslon-pro", serif;
     --transition: transition: 300ms all;
     --grey: rgb(112, 112, 112);
+    /* What the "Kelsi Kee" logo lightens to on hover; the top-right nav uses
+       the same value so both corners answer a pointer the same way. */
+    --hoverGrey: rgb(190, 190, 190);
 
     background-color: black;
 }
@@ -102,7 +105,7 @@ body {
 }
 
 #background {
-    background-image: url("/images/background-image.jpg");
+    background-image: url("/images/background-image-fisheye.jpg");
 }
 
 #overlay {
@@ -142,11 +145,24 @@ body {
     transition: 300ms all;
 }
 
-#main-nav a:hover,
+/* The bottom-right socials and "listen here" keep the underline. */
 #social a:hover,
 .cta:hover {
     border-bottom: 2px solid var(--offWhite);
     padding-bottom: 4px;
+}
+
+/* The top-right nav dims instead of underlining, matching the logo opposite it.
+   A rule drawn under the fan club artwork read as a stray line rather than an
+   underline, since the art has no baseline to sit on. */
+#main-nav .links a:hover {
+    color: var(--hoverGrey);
+}
+
+/* That link is artwork, not type, so there is no colour to change. Dimming the
+   white art lands it at the same value the text lightens to. */
+#main-nav .fanclub-button:hover img {
+    filter: invert(1) brightness(0.75);
 }
 
 #main-nav a+a {
@@ -156,6 +172,15 @@ body {
 
 #main-nav .main-nav-button {
     display: none;
+}
+
+/* Its own inline-block rather than relying on the `#main-nav a + a` rule below:
+   this used to be the third link in the nav and picked it up from there, but
+   with Music and Video switched off it is the first, so the rule stopped
+   matching. As a plain inline box the hover underline draws at the text
+   baseline — through the middle of the 3.5rem image — instead of beneath it. */
+#main-nav .fanclub-button {
+    display: inline-block;
 }
 
 #main-nav .fanclub-button img {
@@ -414,20 +439,6 @@ img.fan-club {
     background: #555;
 }
 
-#mailchimp-logo {
-    position: absolute;
-    bottom: 0.5rem;
-    right: 0.75rem;
-    filter: invert(1);
-    margin: 0 !important;
-    width: max-content;
-    object-fit: contain;
-}
-
-#mailchimp-logo img {
-    width: 2.5rem !important;
-}
-
 #footer {
     position: absolute;
     top: 100%;
@@ -520,7 +531,7 @@ img.fan-club {
 }
 
 #logo:hover a {
-    color: rgb(190, 190, 190);
+    color: var(--hoverGrey);
 }
 
 /* Portrait Styles */

@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="/styles/index.css">
     <link rel="stylesheet" type="text/css" href="/styles/privacy-policy.css">
+    <link rel="stylesheet" type="text/css" href="/styles/signup-popup.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 
@@ -65,10 +66,13 @@
             <section id="social">
                 <a href="javascript:;" onclick="togglePopup('fanclub-signup');" class="newsletter-button">Sign Up For
                     More</a><br>
-                <a aria-label="facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                <a aria-label="instagram" target="_blank"><i class="fab fa-instagram"></i></a>
-                <a aria-label="youtube" target="_blank"><i class="fab fa-youtube"></i></a>
-                <a aria-label="tiktok" target="_blank"><i class="fab fa-tiktok"></i></a>
+                <!-- Hidden until the bucket file says which of these have a link, and in
+                     which order — see setSocials() in /scripts/index.js. Without the
+                     `hidden` they all paint first and the unused ones blink out. -->
+                <a aria-label="facebook" target="_blank" hidden><i class="fab fa-facebook-f"></i></a>
+                <a aria-label="instagram" target="_blank" hidden><i class="fab fa-instagram"></i></a>
+                <a aria-label="youtube" target="_blank" hidden><i class="fab fa-youtube"></i></a>
+                <a aria-label="tiktok" target="_blank" hidden><i class="fab fa-tiktok"></i></a>
             </section>
             <footer id="footer"> ©
                 <script>document.write(new Date().getFullYear())</script><a href='https://rareroomeast.com'
@@ -128,15 +132,6 @@
                     </div>
                     <button type="submit" id="submit" name="subscribe" class="btn btn-default">SUBMIT</button>
                 </form>
-                <p id="mailchimp-logo" style="margin: 0px auto;">
-                    <a href="http://eepurl.com/jgy2Rs" title="Mailchimp - email marketing made easy and fun"><span
-                            style="display: inline-block; background-color: transparent; border-radius: 4px;"><img
-                                class="refferal_badge"
-                                src="https://digitalasset.intuit.com/render/content/dam/intuit/mc-fe/en_us/images/intuit-mc-rewards-text-dark.svg"
-                                alt="Intuit Mailchimp"
-                                style="width: 220px; height: 40px; display: flex; padding: 2px 0px; justify-content: center; align-items: center;"></span>
-                    </a>
-                </p>
                 <div id="thankyou">
                     <h2>Thanks for signing up!</h2>
                 </div>
@@ -269,6 +264,7 @@
     </script>
     <script src="/scripts/privacy-policy.js"></script>
     <script src="/scripts/index.js"></script>
+    <script src="/scripts/signup-popup.js"></script>
 
 </body>
 
