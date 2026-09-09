@@ -48,6 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
   })();
 
   wireFanClubForm();
+  orbitThisFeeling();
   removeCurtainAfterImagesLoad();
 });
 
@@ -290,6 +291,76 @@ function setCountryList() {
   });
   select.appendChild(fragment);
 }
+/* Walks the "This Feeling" wordmark around the rim of the fisheye circle in
+   the background photo.
+
+   The circle is part of the photo, so its position on screen is whatever
+   `background-size: cover` makes it: the photo is scaled by the larger of the
+   two viewport/photo ratios and centred, and the circle rides along. These
+   numbers are measured off /images/background-image-fisheye.jpg — if that photo
+   is ever swapped out, re-measure them. */
+const FISHEYE = {
+  width: 2666,
+  height: 1500,
+  centerX: 0.5004, // circle centre, as a fraction of the photo
+  centerY: 0.491,
+  radius: 627, // in photo pixels
+};
+const ORBIT_SECONDS = 26;
+/* Wordmark width as a share of the circle's diameter. */
+const ORBIT_SIZE = 0.26;
+
+function orbitThisFeeling() {
+  const $orbiter = document.getElementById('orbit-this-feeling');
+  if (!$orbiter) return;
+
+  let orbit = null;
+
+  const measure = () => {
+    const { innerWidth: viewW, innerHeight: viewH } = window;
+    const scale = Math.max(viewW / FISHEYE.width, viewH / FISHEYE.height);
+
+    orbit = {
+      // `cover` centres the photo, so offsets are measured from photo centre.
+      x: viewW / 2 + (FISHEYE.centerX - 0.5) * FISHEYE.width * scale,
+      y: viewH / 2 + (FISHEYE.centerY - 0.5) * FISHEYE.height * scale,
+      radius: FISHEYE.radius * scale,
+    };
+    $orbiter.style.width = `${orbit.radius * 2 * ORBIT_SIZE}px`;
+  };
+
+  /* Kept upright rather than turned to follow the curve — it is a wordmark, and
+     tangent to the circle it reads upside down across the bottom half. */
+  const draw = (milliseconds) => {
+    const angle =
+      (milliseconds / (ORBIT_SECONDS * 1000)) * Math.PI * 2 - Math.PI / 2;
+    const x = orbit.x + Math.cos(angle) * orbit.radius;
+    const y = orbit.y + Math.sin(angle) * orbit.radius;
+    $orbiter.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
+  };
+
+  /* Placed once up front as well as on every frame: requestAnimationFrame does
+     not run in a hidden tab, and without a starting position the wordmark would
+     be parked in the top-left corner when that tab is brought forward. */
+  let lastMilliseconds = 0;
+  const place = () => {
+    measure();
+    draw(lastMilliseconds);
+  };
+
+  place();
+  window.addEventListener('resize', place);
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const step = (milliseconds) => {
+    lastMilliseconds = milliseconds;
+    draw(milliseconds);
+    requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
 function removeCurtainAfterImagesLoad() {
   const $$images = [...document.querySelectorAll('img')];
   const proms = $$images.map(($image) => {

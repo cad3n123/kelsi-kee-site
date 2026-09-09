@@ -39,6 +39,11 @@
 
     <div id="background">
         <div id="overlay" style="opacity: 1;"></div>
+        <!-- Rides the rim of the fisheye circle in the background photo. Its
+             path is measured from the photo in orbitThisFeeling() rather than
+             being fixed in CSS, because `background-size: cover` moves and
+             scales that circle with the viewport. -->
+        <img id="orbit-this-feeling" src="/images/this-feeling.png" alt="This Feeling">
     </div>
     <div id="container">
         <div id="wrapper">

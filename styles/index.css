@@ -112,6 +112,19 @@ body {
     background-image: url("/images/overlay-desktop.jpg");
 }
 
+/* The orbiting "This Feeling" wordmark. Position and size come from JS (see
+   orbitThisFeeling in /scripts/index.js) — CSS only holds the bits that do not
+   depend on where the background circle lands. */
+#orbit-this-feeling {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    /* Painted after #overlay, but it must not eat clicks meant for the page. */
+    pointer-events: none;
+    will-change: transform;
+}
+
 #container {
     position: absolute;
     top: 0px;
