@@ -329,14 +329,16 @@ function orbitThisFeeling() {
     $orbiter.style.width = `${orbit.radius * 2 * ORBIT_SIZE}px`;
   };
 
-  /* Kept upright rather than turned to follow the curve — it is a wordmark, and
-     tangent to the circle it reads upside down across the bottom half. */
+  /* Turned to follow the curve: the wordmark sits tangent to the rim, so it
+     rolls with the circle and reads upside down through the bottom of the lap.
+     The tangent runs a quarter turn ahead of the radius. */
   const draw = (milliseconds) => {
     const angle =
       (milliseconds / (ORBIT_SECONDS * 1000)) * Math.PI * 2 - Math.PI / 2;
     const x = orbit.x + Math.cos(angle) * orbit.radius;
     const y = orbit.y + Math.sin(angle) * orbit.radius;
-    $orbiter.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
+    const turn = angle + Math.PI / 2;
+    $orbiter.style.transform = `translate(${x}px, ${y}px) rotate(${turn}rad) translate(-50%, -50%)`;
   };
 
   /* Placed once up front as well as on every frame: requestAnimationFrame does
