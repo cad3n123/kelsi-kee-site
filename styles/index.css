@@ -105,7 +105,7 @@ body {
 }
 
 #background {
-    background-image: url("/images/background-image-fisheye.jpg");
+    background-image: url("/images/background-image-fisheye-3.jpg");
 }
 
 #overlay {
@@ -129,6 +129,26 @@ body {
        and it stays well below the nav, popups and curtain, which are all in the
        thousands and up. */
     z-index: 1;
+}
+
+/* Only present with ?orbit-debug — see addOrbitRings() in /scripts/index.js. */
+.orbit-debug-ring {
+    position: absolute;
+    border-radius: 50%;
+    box-sizing: border-box;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Where the code believes the photo's circle is — this one should land on the
+   rim. */
+.orbit-debug-circle {
+    border: 1px solid rgba(255, 0, 0, .9);
+}
+
+/* The path the wordmark travels, pulled inside the rim by ORBIT_REACH. */
+.orbit-debug-path {
+    border: 1px dashed rgba(0, 255, 255, .9);
 }
 
 #orbit-this-feeling img {

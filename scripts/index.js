@@ -297,14 +297,16 @@ function setCountryList() {
    The circle is part of the photo, so its position on screen is whatever
    `background-size: cover` makes it: the photo is scaled by the larger of the
    two viewport/photo ratios and centred, and the circle rides along. These
-   numbers are measured off /images/background-image-fisheye.jpg — if that photo
-   is ever swapped out, re-measure them. */
+   numbers are measured off /images/background-image-fisheye-3.jpg — if that
+   photo is ever swapped out, re-measure them. Loading the page with
+   ?orbit-debug draws the circle they describe, which is the quickest way to
+   check them against a new photo. */
 const FISHEYE = {
   width: 2666,
   height: 1500,
-  centerX: 0.5004, // circle centre, as a fraction of the photo
-  centerY: 0.491,
-  radius: 627, // in photo pixels
+  centerX: 0.4989, // circle centre, as a fraction of the photo
+  centerY: 0.4919,
+  radius: 574, // in photo pixels
 };
 const ORBIT_SECONDS = 26;
 /* Wordmark width as a share of the circle's diameter. */
@@ -313,10 +315,38 @@ const ORBIT_SIZE = 0.26;
    it centred on the rim, less pulls it in towards the middle. */
 const ORBIT_REACH = 0.85;
 
+/* Load the page with ?orbit-debug to draw two rings: where the code thinks the
+   photo's circle is, and the path the wordmark travels. If the solid ring does
+   not sit on the rim in the photo, the FISHEYE numbers above need adjusting —
+   centerX/centerY slide it, radius resizes it. */
+function addOrbitRings() {
+  if (!new URLSearchParams(window.location.search).has('orbit-debug')) {
+    return null;
+  }
+
+  const $parent = document.getElementById('background');
+  const rings = ['circle', 'path'].map((kind) => {
+    const $ring = document.createElement('div');
+    $ring.className = `orbit-debug-ring orbit-debug-${kind}`;
+    $parent.appendChild($ring);
+    return $ring;
+  });
+
+  return ([circleRadius, orbitRadius], x, y) => {
+    rings.forEach(($ring, index) => {
+      const radius = [circleRadius, orbitRadius][index];
+      $ring.style.width = $ring.style.height = `${radius * 2}px`;
+      $ring.style.left = `${x - radius}px`;
+      $ring.style.top = `${y - radius}px`;
+    });
+  };
+}
+
 function orbitThisFeeling() {
   const $orbiter = document.getElementById('orbit-this-feeling');
   if (!$orbiter) return;
 
+  const drawRings = addOrbitRings();
   let orbit = null;
 
   const measure = () => {
@@ -333,6 +363,8 @@ function orbitThisFeeling() {
     // Sized against the circle rather than the orbit, so pulling the path in
     // does not also shrink the wordmark.
     $orbiter.style.width = `${circleRadius * 2 * ORBIT_SIZE}px`;
+
+    if (drawRings) drawRings([circleRadius, orbit.radius], orbit.x, orbit.y);
   };
 
   /* Turned to follow the curve: the wordmark sits tangent to the rim, so it
