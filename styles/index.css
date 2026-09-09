@@ -120,9 +120,22 @@ body {
     top: 0;
     left: 0;
     width: 0;
-    /* Painted after #overlay, but it must not eat clicks meant for the page. */
-    pointer-events: none;
+    display: block;
+    cursor: pointer;
     will-change: transform;
+}
+
+#orbit-this-feeling img {
+    display: block;
+    width: 100%;
+    transition: 300ms all;
+}
+
+/* The same dimming the "Kelsi Kee" logo opposite it uses. That rule lightens
+   text to var(--hoverGrey); this artwork has no colour to set, so it is dimmed
+   to the same value instead — matching how the fan club art is handled. */
+#orbit-this-feeling:hover img {
+    filter: brightness(0.75);
 }
 
 #container {

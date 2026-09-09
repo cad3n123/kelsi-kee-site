@@ -349,10 +349,10 @@ function orbitThisFeeling() {
   /* Placed once up front as well as on every frame: requestAnimationFrame does
      not run in a hidden tab, and without a starting position the wordmark would
      be parked in the top-left corner when that tab is brought forward. */
-  let lastMilliseconds = 0;
+  let elapsed = 0;
   const place = () => {
     measure();
-    draw(lastMilliseconds);
+    draw(elapsed);
   };
 
   place();
@@ -360,9 +360,19 @@ function orbitThisFeeling() {
 
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
+  /* Hovering stops the orbit so the wordmark can be clicked without chasing it.
+     The clock is the elapsed time we have chosen to count, not the timestamp
+     the frame carries — pausing it leaves the wordmark where it stopped and
+     resumes from there, instead of jumping ahead by the length of the hover. */
+  let frozen = false;
+  $orbiter.addEventListener('mouseenter', () => (frozen = true));
+  $orbiter.addEventListener('mouseleave', () => (frozen = false));
+
+  let previous = null;
   const step = (milliseconds) => {
-    lastMilliseconds = milliseconds;
-    draw(milliseconds);
+    if (previous !== null && !frozen) elapsed += milliseconds - previous;
+    previous = milliseconds;
+    draw(elapsed);
     requestAnimationFrame(step);
   };
   requestAnimationFrame(step);
