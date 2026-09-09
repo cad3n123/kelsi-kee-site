@@ -309,6 +309,9 @@ const FISHEYE = {
 const ORBIT_SECONDS = 26;
 /* Wordmark width as a share of the circle's diameter. */
 const ORBIT_SIZE = 0.26;
+/* How far out the wordmark travels, as a share of the circle's radius — 1 puts
+   it centred on the rim, less pulls it in towards the middle. */
+const ORBIT_REACH = 0.85;
 
 function orbitThisFeeling() {
   const $orbiter = document.getElementById('orbit-this-feeling');
@@ -319,14 +322,17 @@ function orbitThisFeeling() {
   const measure = () => {
     const { innerWidth: viewW, innerHeight: viewH } = window;
     const scale = Math.max(viewW / FISHEYE.width, viewH / FISHEYE.height);
+    const circleRadius = FISHEYE.radius * scale;
 
     orbit = {
       // `cover` centres the photo, so offsets are measured from photo centre.
       x: viewW / 2 + (FISHEYE.centerX - 0.5) * FISHEYE.width * scale,
       y: viewH / 2 + (FISHEYE.centerY - 0.5) * FISHEYE.height * scale,
-      radius: FISHEYE.radius * scale,
+      radius: circleRadius * ORBIT_REACH,
     };
-    $orbiter.style.width = `${orbit.radius * 2 * ORBIT_SIZE}px`;
+    // Sized against the circle rather than the orbit, so pulling the path in
+    // does not also shrink the wordmark.
+    $orbiter.style.width = `${circleRadius * 2 * ORBIT_SIZE}px`;
   };
 
   /* Turned to follow the curve: the wordmark sits tangent to the rim, so it

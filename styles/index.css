@@ -123,6 +123,12 @@ body {
     display: block;
     cursor: pointer;
     will-change: transform;
+    /* #container is a full-screen box that comes after #background in the
+       document, so by default it lies over the wordmark and swallows every
+       hover and click aimed at it. This lifts the wordmark above #container —
+       and it stays well below the nav, popups and curtain, which are all in the
+       thousands and up. */
+    z-index: 1;
 }
 
 #orbit-this-feeling img {
