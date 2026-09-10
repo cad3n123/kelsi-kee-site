@@ -317,6 +317,9 @@ const ORBIT_SIZE = 0.26;
 /* How far out the wordmark travels, as a share of the circle's radius — 1 puts
    it centred on the rim, less pulls it in towards the middle. */
 const ORBIT_REACH = 0.85;
+/* Breathing room kept between the wordmark and the edge of the screen when the
+   orbit has to be pulled in to fit — see measure(). */
+const ORBIT_EDGE_GAP = 8;
 
 /* How many vertical slices the wordmark is cut into to curve it. Enough that
    the fan-shaped gaps opening between neighbours stay under a pixel. */
@@ -408,6 +411,7 @@ function orbitThisFeeling() {
 
   const drawRings = addOrbitRings();
   const bend = addOrbitBend($orbiter);
+  const $image = $orbiter.querySelector('img');
   let orbit = null;
 
   const measure = () => {
@@ -429,6 +433,18 @@ function orbitThisFeeling() {
     // does not also shrink the wordmark.
     const width = circleRadius * 2 * ORBIT_SIZE;
     $orbiter.style.width = `${width}px`;
+
+    /* On a narrow viewport `cover` blows the photo up until the circle is wider
+       than the screen, and a path drawn on its rim would carry the wordmark off
+       the edge. The wordmark straddles the path, so what has to stay inside is
+       the path plus half the artwork's height — clamp the radius to the nearest
+       edge less that margin. */
+    const height = $image.naturalWidth
+      ? (width * $image.naturalHeight) / $image.naturalWidth
+      : 0;
+    const margin = height / 2 + ORBIT_EDGE_GAP;
+    const room = Math.min(orbit.x, viewW - orbit.x, orbit.y, viewH - orbit.y);
+    orbit.radius = Math.min(orbit.radius, Math.max(room - margin, 0));
 
     if (drawRings) drawRings([circleRadius, orbit.radius], orbit.x, orbit.y);
     /* The curve only depends on the geometry, not on where in the lap the
@@ -467,7 +483,6 @@ function orbitThisFeeling() {
   window.addEventListener('resize', place);
   /* Placing again once the artwork arrives: the slices need its proportions to
      be cut, and on a cold load the first placement beats it there. */
-  const $image = $orbiter.querySelector('img');
   if ($image && !$image.complete) {
     $image.addEventListener('load', place, { once: true });
   }
