@@ -304,9 +304,12 @@ function setCountryList() {
 const FISHEYE = {
   width: 2666,
   height: 1500,
-  centerX: 0.4986, // circle centre, as a fraction of the photo
-  centerY: 0.4946,
-  radius: 572, // in photo pixels
+  /* The rim is a glow rather than a hard edge, so these trace its outer end —
+     the radius where the light finally dies into the vignette, measured off the
+     brightness profile at the top, bottom, left and right of the disc. */
+  centerX: 0.5, // circle centre, as a fraction of the photo
+  centerY: 0.4977,
+  radius: 577, // in photo pixels
 };
 const ORBIT_SECONDS = 26;
 /* Wordmark width as a share of the circle's diameter. */
