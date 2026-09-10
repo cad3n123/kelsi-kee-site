@@ -151,29 +151,20 @@ body {
     border: 1px dashed rgba(0, 255, 255, .9);
 }
 
+/* See addOrbitBend() in /scripts/index.js: the slices carry the artwork, and the
+   <img> stays in the document so it still gives the link its size, its hit area
+   and its alt text. */
 #orbit-this-feeling img {
     display: block;
     width: 100%;
-    transition: 300ms all;
+    visibility: hidden;
 }
 
 /* The same dimming the "Kelsi Kee" logo opposite it uses. That rule lightens
    text to var(--hoverGrey); this artwork has no colour to set, so it is dimmed
    to the same value instead — matching how the fan club art is handled. */
-#orbit-this-feeling:hover img,
 #orbit-this-feeling:hover .orbit-bend-layer {
     filter: brightness(0.75);
-}
-
-/* Only present with ?orbit-bend — see addOrbitBend() in /scripts/index.js. The
-   slices carry the artwork while it is on, and the <img> stays in the document
-   so it still gives the link its size, its hit area and its alt text. */
-#orbit-this-feeling.bent img {
-    visibility: hidden;
-    /* The rule above inherits the 300ms `all` transition, and a transitioned
-       visibility stays visible for the whole of it — the flat wordmark would
-       flash under the curved one on the way in. */
-    transition: none;
 }
 
 .orbit-bend-layer {

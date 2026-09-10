@@ -318,26 +318,18 @@ const ORBIT_SIZE = 0.26;
    it centred on the rim, less pulls it in towards the middle. */
 const ORBIT_REACH = 0.85;
 
-/* How many vertical slices the wordmark is cut into by ?orbit-bend. Enough that
+/* How many vertical slices the wordmark is cut into to curve it. Enough that
    the fan-shaped gaps opening between neighbours stay under a pixel. */
 const BEND_SLICES = 60;
 
-/* Load the page with ?orbit-bend to curve the wordmark along its path instead
-   of leaving it a straight line laid against the rim. The artwork is cut into
-   vertical slices and each one is swung about the orbit's centre by the angle
-   its own offset along the wordmark subtends, so the strip wraps the circle.
-   ?orbit-bend=0.5 halves the curvature and ?orbit-bend=0 flattens it back out,
-   which is the quickest way to compare the two.
+/* Curves the wordmark along its path instead of leaving it a straight line laid
+   against the rim. The artwork is cut into vertical slices and each one is
+   swung about the orbit's centre by the angle its own offset along the wordmark
+   subtends, so the strip wraps the circle.
 
    Returns a function that re-cuts the slices for a given wordmark width and
-   orbit radius, or null when the parameter is absent. */
+   orbit radius. */
 function addOrbitBend($orbiter) {
-  const value = new URLSearchParams(window.location.search).get('orbit-bend');
-  if (value === null) return null;
-
-  const asked = parseFloat(value);
-  const strength = Number.isFinite(asked) ? asked : 1;
-
   const $image = $orbiter.querySelector('img');
   const $layer = document.createElement('div');
   $layer.className = 'orbit-bend-layer';
@@ -349,18 +341,11 @@ function addOrbitBend($orbiter) {
     return $slice;
   });
   $orbiter.appendChild($layer);
-  $orbiter.classList.add('bent');
 
   return (width, radius) => {
     // Nothing to cut up until the browser knows the artwork's proportions.
     if (!$image.naturalWidth) return;
     const height = (width * $image.naturalHeight) / $image.naturalWidth;
-
-    /* Bending against a wider circle than the one being travelled is what a
-       partial strength means: the wordmark keeps its length and only relaxes
-       its curve. At full strength this is the orbit itself, and at 0 it is
-       straight. */
-    const bendRadius = strength > 0 ? radius / strength : Infinity;
 
     const step = width / BEND_SLICES;
     /* Neighbouring slices splay apart as they rotate, so each one is grown a
@@ -372,25 +357,20 @@ function addOrbitBend($orbiter) {
       /* Where this slice sits along the wordmark, measured from the middle —
          and, since the wordmark is laid tangent to the path, the arc it has to
          travel to land in the right place. The centre it curves around lies a
-         straight `bendRadius` below the wordmark's middle in this rotated
-         frame, so swinging a centred slice about that point by offset/bendRadius
-         both slides it out to its own offset and tips it to match the curve. */
+         straight `radius` below the wordmark's middle in this rotated frame, so
+         swinging a centred slice about that point by offset/radius both slides
+         it out to its own offset and tips it to match the curve. */
       const offset = (index + 0.5) * step - width / 2;
-      const turn = offset / bendRadius;
+      const turn = offset / radius;
 
       $slice.style.width = `${sliceWidth}px`;
       $slice.style.height = `${height}px`;
-      /* Every slice starts stacked in the middle and the swing deals it out to
-         its offset — except at zero strength, where there is no swing to ride
-         and the slices are simply laid out flat. */
-      const flat = !Number.isFinite(bendRadius);
-      $slice.style.left = `${(width - sliceWidth) / 2 + (flat ? offset : 0)}px`;
+      // Every slice starts stacked in the middle; the swing deals it out.
+      $slice.style.left = `${(width - sliceWidth) / 2}px`;
       $slice.style.backgroundSize = `${width}px ${height}px`;
       $slice.style.backgroundPosition = `${bleed - index * step}px 0`;
-      $slice.style.transformOrigin = flat
-        ? ''
-        : `${sliceWidth / 2}px ${height / 2 + bendRadius}px`;
-      $slice.style.transform = flat ? '' : `rotate(${turn}rad)`;
+      $slice.style.transformOrigin = `${sliceWidth / 2}px ${height / 2 + radius}px`;
+      $slice.style.transform = `rotate(${turn}rad)`;
     });
   };
 }
@@ -454,7 +434,7 @@ function orbitThisFeeling() {
     /* The curve only depends on the geometry, not on where in the lap the
        wordmark happens to be, so the slices are cut here rather than per
        frame — the spin is still one rotate on the link itself. */
-    if (bend) bend(width, orbit.radius);
+    bend(width, orbit.radius);
   };
 
   /* Turned to follow the curve: the wordmark sits tangent to the rim, so it
@@ -485,8 +465,8 @@ function orbitThisFeeling() {
 
   place();
   window.addEventListener('resize', place);
-  /* Placing again once the artwork arrives: ?orbit-bend needs its proportions
-     to cut the slices, and on a cold load the first placement beats it there. */
+  /* Placing again once the artwork arrives: the slices need its proportions to
+     be cut, and on a cold load the first placement beats it there. */
   const $image = $orbiter.querySelector('img');
   if ($image && !$image.complete) {
     $image.addEventListener('load', place, { once: true });
