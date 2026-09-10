@@ -304,9 +304,9 @@ function setCountryList() {
 const FISHEYE = {
   width: 2666,
   height: 1500,
-  centerX: 0.4989, // circle centre, as a fraction of the photo
-  centerY: 0.4919,
-  radius: 574, // in photo pixels
+  centerX: 0.4986, // circle centre, as a fraction of the photo
+  centerY: 0.4946,
+  radius: 572, // in photo pixels
 };
 const ORBIT_SECONDS = 26;
 /* Wordmark width as a share of the circle's diameter. */
@@ -350,7 +350,11 @@ function orbitThisFeeling() {
   let orbit = null;
 
   const measure = () => {
-    const { innerWidth: viewW, innerHeight: viewH } = window;
+    /* The photo is painted into #background, which fills the initial containing
+       block — that is clientWidth/clientHeight, not innerWidth/innerHeight:
+       those include the scrollbar, which would slide the circle sideways by
+       half a scrollbar's width. */
+    const { clientWidth: viewW, clientHeight: viewH } = document.documentElement;
     const scale = Math.max(viewW / FISHEYE.width, viewH / FISHEYE.height);
     const circleRadius = FISHEYE.radius * scale;
 
