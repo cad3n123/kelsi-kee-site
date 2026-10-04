@@ -549,7 +549,14 @@ async function fetchData() {
     'https://rareroom-bucket.s3.us-east-2.amazonaws.com/kelsi-kee/data.json';
 
   try {
-    const response = await fetch(S3_URL);
+    /* `no-cache` means "use the cached copy only after asking the bucket
+       whether it is still current" -- not "do not cache". The bucket serves
+       this file with no Cache-Control, no Expires and no ETag, which leaves
+       the browser free to keep an old copy indefinitely and never ask: a
+       social link added here would stay invisible to anyone who had loaded
+       the site before. Revalidating on every load costs one conditional
+       request and makes an edit to the bucket show up on the next reload. */
+    const response = await fetch(S3_URL, { cache: 'no-cache' });
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
