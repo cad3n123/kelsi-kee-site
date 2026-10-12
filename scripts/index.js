@@ -10,6 +10,7 @@ const [[$links]] = ['.links'].map((descriptor) =>
 const [[$listenHere]] = ['.cta'].map((descriptor) =>
   $homeContent.querySelectorAll(descriptor)
 );
+const $contact = document.getElementById('contact');
 
 // Global Vars
 let data = {};
@@ -594,6 +595,12 @@ function setSocials() {
     $link.hidden = false;
     $social.appendChild($link); // re-appending in order sets the on-screen order
   });
+
+  // The re-appending above moves the icons past anything already at the end of
+  // the section, so the Contact line has to be put back below them.
+  if ($contact !== null) {
+    $social.appendChild($contact);
+  }
 }
 function setLinks() {
   const $$links = [...$links.querySelectorAll('a')];

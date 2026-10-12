@@ -420,6 +420,21 @@ img.fan-club {
     font-size: .75em;
 }
 
+/* Its own line under the icon row: block so it breaks off the inline icons,
+   but width-fitted and auto-margined so it stays centred and the hover
+   underline from `#social a:hover` is only as wide as the word. The explicit
+   margin also clears the `#social a+a` indent. Typeset like the "© RAREROOM"
+   footer. */
+#social #contact {
+    display: block;
+    width: fit-content;
+    margin: 12px auto 0 auto;
+    font-family: Source_Code_Pro;
+    font-size: 10px;
+    letter-spacing: 3px;
+    font-weight: normal;
+}
+
 ::placeholder {
     color: var(--offWhite) !important;
     opacity: 1 !important;
