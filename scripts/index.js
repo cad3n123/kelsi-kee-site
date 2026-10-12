@@ -23,8 +23,8 @@ let data = {};
      albumTitle — the "The Line" title and its "listen here" link, bottom left
    --------------------------------------------------------------------------- */
 const FEATURES = {
-  music: false,
-  video: false,
+  music: true,
+  video: true,
   albumTitle: false,
 };
 
