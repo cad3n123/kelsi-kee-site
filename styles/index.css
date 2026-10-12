@@ -424,15 +424,28 @@ img.fan-club {
    but width-fitted and auto-margined so it stays centred and the hover
    underline from `#social a:hover` is only as wide as the word. The explicit
    margin also clears the `#social a+a` indent. Typeset like the "© RAREROOM"
-   footer. */
+   footer.
+
+   The underline is carried at rest as a transparent border, and only its
+   colour changes on hover. Letting `#social a:hover` add the border and its
+   padding would grow the element by 6px, and since #social is anchored to the
+   bottom of the viewport that growth shoved the whole icon row upwards. */
 #social #contact {
     display: block;
     width: fit-content;
     margin: 12px auto 0 auto;
+    padding-bottom: 4px;
+    border-bottom: 2px solid transparent;
     font-family: Source_Code_Pro;
     font-size: 10px;
     letter-spacing: 3px;
+    text-transform: uppercase;
     font-weight: normal;
+}
+
+#social #contact:hover {
+    padding-bottom: 4px;
+    border-bottom-color: var(--offWhite);
 }
 
 ::placeholder {
