@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
   })();
 
   wireFanClubForm();
-  orbitThisFeeling();
+  orbitSongs();
   removeCurtainAfterImagesLoad();
 });
 
@@ -292,8 +292,8 @@ function setCountryList() {
   });
   select.appendChild(fragment);
 }
-/* Walks the "This Feeling" wordmark around the rim of the fisheye circle in
-   the background photo.
+/* Walks the song wordmarks around the rim of the fisheye circle in the
+   background photo, evenly spaced around the lap.
 
    The circle is part of the photo, so its position on screen is whatever
    `background-size: cover` makes it: the photo is scaled by the larger of the
@@ -406,13 +406,22 @@ function addOrbitRings() {
   };
 }
 
-function orbitThisFeeling() {
-  const $orbiter = document.getElementById('orbit-this-feeling');
-  if (!$orbiter) return;
+function orbitSongs() {
+  const $$orbiters = [...document.querySelectorAll('.orbiter')];
+  if (!$$orbiters.length) return;
 
   const drawRings = addOrbitRings();
-  const bend = addOrbitBend($orbiter);
-  const $image = $orbiter.querySelector('img');
+  /* Each wordmark carries its own artwork, so each gets its own set of slices
+     and its own measurements; only the path they share is worked out once. */
+  const songs = $$orbiters.map(($orbiter, index) => ({
+    $orbiter,
+    $image: $orbiter.querySelector('img'),
+    bend: addOrbitBend($orbiter),
+    /* Spread evenly around the lap, in document order: one song sits anywhere,
+       two end up opposite each other, three a third of a lap apart. */
+    phase: (index / $$orbiters.length) * Math.PI * 2,
+    width: 0,
+  }));
   let orbit = null;
 
   const measure = () => {
@@ -431,49 +440,60 @@ function orbitThisFeeling() {
       radius: circleRadius * ORBIT_REACH,
     };
     // Sized against the circle rather than the orbit, so pulling the path in
-    // does not also shrink the wordmark.
+    // does not also shrink the wordmarks.
     const width = circleRadius * 2 * ORBIT_SIZE;
-    $orbiter.style.width = `${width}px`;
 
     /* On a narrow viewport `cover` blows the photo up until the circle is wider
-       than the screen, and a path drawn on its rim would carry the wordmark off
-       the edge. The wordmark straddles the path, so what has to stay inside is
-       the path plus half the artwork's height — clamp the radius to the nearest
-       edge less that margin. */
-    const height = $image.naturalWidth
-      ? (width * $image.naturalHeight) / $image.naturalWidth
-      : 0;
-    const margin = height / 2 + ORBIT_EDGE_GAP;
+       than the screen, and a path drawn on its rim would carry a wordmark off
+       the edge. They straddle the path, so what has to stay inside is the path
+       plus half the artwork's height — clamp the radius to the nearest edge
+       less that margin. The tallest wordmark sets the margin: they all ride the
+       same ring, which is what keeps them evenly spaced. */
+    let tallest = 0;
+    songs.forEach((song) => {
+      song.width = width;
+      song.$orbiter.style.width = `${width}px`;
+      if (song.$image.naturalWidth) {
+        tallest = Math.max(
+          tallest,
+          (width * song.$image.naturalHeight) / song.$image.naturalWidth
+        );
+      }
+    });
+    const margin = tallest / 2 + ORBIT_EDGE_GAP;
     const room = Math.min(orbit.x, viewW - orbit.x, orbit.y, viewH - orbit.y);
     orbit.radius = Math.min(orbit.radius, Math.max(room - margin, 0));
 
     if (drawRings) drawRings([circleRadius, orbit.radius], orbit.x, orbit.y);
-    /* The curve only depends on the geometry, not on where in the lap the
+    /* The curve only depends on the geometry, not on where in the lap a
        wordmark happens to be, so the slices are cut here rather than per
-       frame — the spin is still one rotate on the link itself. */
-    bend(width, orbit.radius);
+       frame — the spin is still one rotate on each link itself. */
+    songs.forEach((song) => song.bend(song.width, orbit.radius));
   };
 
-  /* Turned to follow the curve: the wordmark sits tangent to the rim, so it
-     rolls with the circle and reads upside down through the bottom of the lap.
-     The tangent runs a quarter turn ahead of the radius.
+  /* Turned to follow the curve: a wordmark sits tangent to the rim, so it rolls
+     with the circle and reads upside down through the bottom of the lap. The
+     tangent runs a quarter turn ahead of the radius.
 
      Order matters here: the -50% centering has to come before the rotate. Put
      it last and it is applied in the rotated frame, which swings the wordmark
      off the rim by up to its own width — drifting inside the circle on one side
      of the lap and outside on the other, and skewing the angle with it. */
   const draw = (milliseconds) => {
-    const angle =
+    const lap =
       (milliseconds / (ORBIT_SECONDS * 1000)) * Math.PI * 2 - Math.PI / 2;
-    const x = orbit.x + Math.cos(angle) * orbit.radius;
-    const y = orbit.y + Math.sin(angle) * orbit.radius;
-    const turn = angle + Math.PI / 2;
-    $orbiter.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px) rotate(${turn}rad)`;
+    songs.forEach((song) => {
+      const angle = lap + song.phase;
+      const x = orbit.x + Math.cos(angle) * orbit.radius;
+      const y = orbit.y + Math.sin(angle) * orbit.radius;
+      const turn = angle + Math.PI / 2;
+      song.$orbiter.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px) rotate(${turn}rad)`;
+    });
   };
 
   /* Placed once up front as well as on every frame: requestAnimationFrame does
-     not run in a hidden tab, and without a starting position the wordmark would
-     be parked in the top-left corner when that tab is brought forward. */
+     not run in a hidden tab, and without a starting position the wordmarks
+     would be parked in the top-left corner when that tab is brought forward. */
   let elapsed = 0;
   const place = () => {
     measure();
@@ -484,19 +504,25 @@ function orbitThisFeeling() {
   window.addEventListener('resize', place);
   /* Placing again once the artwork arrives: the slices need its proportions to
      be cut, and on a cold load the first placement beats it there. */
-  if ($image && !$image.complete) {
-    $image.addEventListener('load', place, { once: true });
-  }
+  songs.forEach((song) => {
+    if (song.$image && !song.$image.complete) {
+      song.$image.addEventListener('load', place, { once: true });
+    }
+  });
 
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  /* Hovering stops the orbit so the wordmark can be clicked without chasing it.
-     The clock is the elapsed time we have chosen to count, not the timestamp
-     the frame carries — pausing it leaves the wordmark where it stopped and
-     resumes from there, instead of jumping ahead by the length of the hover. */
-  let frozen = false;
-  $orbiter.addEventListener('mouseenter', () => (frozen = true));
-  $orbiter.addEventListener('mouseleave', () => (frozen = false));
+  /* Hovering stops the orbit so a wordmark can be clicked without chasing it.
+     The whole lap stops, not just the one under the cursor — they share the
+     clock, and stopping one alone would break the even spacing. The clock is
+     the elapsed time we have chosen to count, not the timestamp the frame
+     carries — pausing it leaves the wordmarks where they stopped and resumes
+     from there, instead of jumping ahead by the length of the hover. */
+  let frozen = 0;
+  songs.forEach((song) => {
+    song.$orbiter.addEventListener('mouseenter', () => (frozen += 1));
+    song.$orbiter.addEventListener('mouseleave', () => (frozen -= 1));
+  });
 
   let previous = null;
   const step = (milliseconds) => {

@@ -39,13 +39,18 @@
 
     <div id="background">
         <div id="overlay" style="opacity: 1;"></div>
-        <!-- Rides the rim of the fisheye circle in the background photo. Its
-             path is measured from the photo in orbitThisFeeling() rather than
-             being fixed in CSS, because `background-size: cover` moves and
-             scales that circle with the viewport. -->
-        <a id="orbit-this-feeling" href="https://orcd.co/kelsikee-thisfeeling" target="_blank"
-            rel="noopener noreferrer">
+        <!-- The song wordmarks that ride the rim of the fisheye circle in the
+             background photo. Their path is measured from the photo in
+             orbitSongs() rather than being fixed in CSS, because
+             `background-size: cover` moves and scales that circle with the
+             viewport, and they are spread evenly around that path — one
+             anywhere on the lap, two opposite each other, and so on, in
+             document order. -->
+        <a class="orbiter" href="https://orcd.co/kelsikee-thisfeeling" target="_blank" rel="noopener noreferrer">
             <img src="/images/this-feeling.png" alt="This Feeling">
+        </a>
+        <a class="orbiter" href="https://orcd.co/kelsikee-theline" target="_blank" rel="noopener noreferrer">
+            <img src="/images/the-line.png" alt="The Line">
         </a>
     </div>
     <div id="container">

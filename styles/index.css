@@ -112,10 +112,10 @@ body {
     background-image: url("/images/overlay-desktop.jpg");
 }
 
-/* The orbiting "This Feeling" wordmark. Position and size come from JS (see
-   orbitThisFeeling in /scripts/index.js) — CSS only holds the bits that do not
+/* The orbiting song wordmarks. Position and size come from JS (see
+   orbitSongs in /scripts/index.js) — CSS only holds the bits that do not
    depend on where the background circle lands. */
-#orbit-this-feeling {
+.orbiter {
     position: absolute;
     top: 0;
     left: 0;
@@ -154,7 +154,7 @@ body {
 /* See addOrbitBend() in /scripts/index.js: the slices carry the artwork, and the
    <img> stays in the document so it still gives the link its size, its hit area
    and its alt text. */
-#orbit-this-feeling img {
+.orbiter img {
     display: block;
     width: 100%;
     visibility: hidden;
@@ -163,7 +163,7 @@ body {
 /* The same dimming the "Kelsi Kee" logo opposite it uses. That rule lightens
    text to var(--hoverGrey); this artwork has no colour to set, so it is dimmed
    to the same value instead — matching how the fan club art is handled. */
-#orbit-this-feeling:hover .orbit-bend-layer {
+.orbiter:hover .orbit-bend-layer {
     filter: brightness(0.75);
 }
 
