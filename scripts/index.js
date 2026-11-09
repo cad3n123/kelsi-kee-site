@@ -313,8 +313,18 @@ const FISHEYE = {
   radius: 577, // in photo pixels
 };
 const ORBIT_SECONDS = 26;
-/* Wordmark width as a share of the circle's diameter. */
-const ORBIT_SIZE = 0.26;
+/* Wordmark height as a share of the circle's diameter. Height rather than
+   width, so every song's artwork is drawn at the same lettering size and only
+   the width changes with the length of the title — sizing by width would have
+   shrunk a long title's letters to fit the same span.
+
+   That holds only while the artwork measures the same way, so each wordmark's
+   PNG is padded to a shared em box: the same x-height as a share of the canvas,
+   with the baseline the same fraction down it. A new song's artwork has to be
+   padded to match before it will sit right next to the others — the letters
+   would otherwise come out larger or smaller at the same box height, and sit
+   high or low on the path. */
+const ORBIT_HEIGHT = 0.082;
 /* How far out the wordmark travels, as a share of the circle's radius — 1 puts
    it centred on the rim, less pulls it in towards the middle. */
 const ORBIT_REACH = 0.85;
@@ -439,28 +449,28 @@ function orbitSongs() {
       y: viewH / 2 + (FISHEYE.centerY - 0.5) * FISHEYE.height * scale,
       radius: circleRadius * ORBIT_REACH,
     };
-    // Sized against the circle rather than the orbit, so pulling the path in
-    // does not also shrink the wordmarks.
-    const width = circleRadius * 2 * ORBIT_SIZE;
+    /* Sized against the circle rather than the orbit, so pulling the path in
+       does not also shrink the wordmarks. The height is what the constant
+       fixes; each song's width follows from its own artwork's proportions, so
+       a longer title simply runs further around the lap at the same lettering
+       size. */
+    const height = circleRadius * 2 * ORBIT_HEIGHT;
+
+    songs.forEach((song) => {
+      // Until the browser knows the artwork's proportions there is no width to
+      // derive; the `load` listener below brings us back here.
+      if (!song.$image.naturalWidth) return;
+      song.width =
+        (height * song.$image.naturalWidth) / song.$image.naturalHeight;
+      song.$orbiter.style.width = `${song.width}px`;
+    });
 
     /* On a narrow viewport `cover` blows the photo up until the circle is wider
        than the screen, and a path drawn on its rim would carry a wordmark off
        the edge. They straddle the path, so what has to stay inside is the path
        plus half the artwork's height — clamp the radius to the nearest edge
-       less that margin. The tallest wordmark sets the margin: they all ride the
-       same ring, which is what keeps them evenly spaced. */
-    let tallest = 0;
-    songs.forEach((song) => {
-      song.width = width;
-      song.$orbiter.style.width = `${width}px`;
-      if (song.$image.naturalWidth) {
-        tallest = Math.max(
-          tallest,
-          (width * song.$image.naturalHeight) / song.$image.naturalWidth
-        );
-      }
-    });
-    const margin = tallest / 2 + ORBIT_EDGE_GAP;
+       less that margin. One height covers every song now that they share it. */
+    const margin = height / 2 + ORBIT_EDGE_GAP;
     const room = Math.min(orbit.x, viewW - orbit.x, orbit.y, viewH - orbit.y);
     orbit.radius = Math.min(orbit.radius, Math.max(room - margin, 0));
 
