@@ -581,6 +581,29 @@ function secondsToMilliseconds(timeStr) {
   if (!match) throw new Error("Invalid time format. Must end in 's'.");
   return Math.round(parseFloat(match[1]) * 1000);
 }
+/* Everything in the bucket file is a URL somebody typed, and all of it ends up
+   in an href. Nothing but http(s) gets through: a `javascript:` URL in an href
+   runs when a visitor clicks it, and `data:` can carry a whole page.
+
+   Only a signed-in editor can write that file, so this is not closing a hole
+   that is open today - it keeps a stolen editor password to a defacement
+   instead of script running on everyone who visits.
+
+   Relative paths still resolve, against a page served over http(s). Anything
+   unusable comes back as '' so the caller can drop the icon rather than leave
+   a dead one on screen. */
+function safeUrl(value) {
+  if (typeof value !== 'string') return '';
+  const raw = value.trim();
+  if (!raw) return '';
+  try {
+    const { protocol } = new URL(raw, window.location.href);
+    return protocol === 'https:' || protocol === 'http:' ? raw : '';
+  } catch {
+    return '';
+  }
+}
+
 async function fetchData() {
   const S3_URL =
     'https://rareroom-bucket.s3.us-east-2.amazonaws.com/kelsi-kee/data.json';
@@ -617,7 +640,7 @@ function setSocials() {
 
   // Dropped rather than left hidden: the row is spaced with an `a + a` rule,
   // which would otherwise indent the first icon that is actually visible.
-  const live = Object.keys(socialLinks).filter((name) => socialLinks[name]);
+  const live = Object.keys(socialLinks).filter((name) => safeUrl(socialLinks[name]));
   $$socials
     .filter(($) => !live.includes($.getAttribute('aria-label')))
     .forEach(($) => $.remove());
@@ -627,7 +650,7 @@ function setSocials() {
     if ($link === undefined) {
       return;
     }
-    $link.href = socialLinks[name];
+    $link.href = safeUrl(socialLinks[name]);
     $link.hidden = false;
     $social.appendChild($link); // re-appending in order sets the on-screen order
   });
@@ -642,9 +665,13 @@ function setLinks() {
   const $$links = [...$links.querySelectorAll('a')];
 
   ['music', 'video'].forEach((key) => {
-    const link = data[key];
+    const link = safeUrl(data[key]);
     const $link = $$links.find(($link) => $link.classList.contains(key));
-    if ([link, $link].includes(undefined)) {
+    if ($link === undefined) {
+      return;
+    }
+    if (!link) {
+      $link.removeAttribute('href');
       return;
     }
     $link.href = link;
@@ -652,7 +679,7 @@ function setLinks() {
 
   // Set from the data rather than from the nav link, so "listen here" still
   // works if the Music link is switched off in FEATURES but this block is not.
-  if ($listenHere !== undefined && data.music !== undefined) {
-    $listenHere.href = data.music;
+  if ($listenHere !== undefined && safeUrl(data.music)) {
+    $listenHere.href = safeUrl(data.music);
   }
 }
